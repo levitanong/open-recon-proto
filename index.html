@@ -25,7 +25,7 @@
 	<section class="top-bar-section">
 		<ul class="right">
 			<li>
-				<a ng-click="sampleData.genReqList(10)">Generate Sample Data</a>
+				<a ng-click="requests.addSampleData(10)">Generate Sample Data</a>
 			</li>
 			<li class="has-dropdown not-click">
 				<a href="#">{{users.current.name}}</a>
@@ -33,7 +33,7 @@
 					<li>
 						<a ng-click="setView('Account')">Account Details</a>
 					</li>
-					<li ng-repeat="user in userList">
+					<li ng-repeat="user in users.list">
 						<a ng-click="users.switchTo(user)">Switch to {{user.name}}</a>
 					</li>
 				</ul>
@@ -61,7 +61,7 @@
 			</div>
 			<div class="columns large-8">
 				<ul>
-					<li ng-repeat="req in reqList">
+					<li ng-repeat="req in requests.list">
 						{{req.date | date:'MMM d'}}
 						{{req.code}}
 						{{req.disaster.type}}

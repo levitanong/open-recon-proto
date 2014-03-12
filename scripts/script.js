@@ -2,70 +2,12 @@ var app = angular.module('recon', []);
 
 // values and constants
 
-app.value('reqList', []);
-app.value('userList', [
-	{
-		type: 'LGU',
-		name: 'Mayor Lucia L. Astorga',
-		income: null,
-		address: {
-			district: null,
-			department: null,
-			region: 8,
-			province: 'Western Samar',
-			city: null,
-			town: 'Daram',
-			barangay: null,
-			sitio: null
-		}
-	},
-	{
-		type: 'LGU',
-		name: 'Mayor Pepe Bawagan',
-		income: null,
-		address: {
-			district: null,
-			department: null,
-			region: 8,
-			province: 'Eastern Samar',
-			city: null,
-			town: 'PepeVille',
-			barangay: null,
-			sitio: null
-		}
-	},
-	{
-		type: 'NDRRMC',
-		name: 'Philip Cheang',
-		income: null,
-		address: {
-			district: null,
-			department: 'NDRRMC',
-			region: null,
-			province: null,
-			city: null,
-			town: null,
-			barangay: null,
-			sitio: null
-		}
-	}
-]);
-
-app.factory('users', function(userList){
-	return {
-		current: userList[0],
-		switchTo: function(u){
-			this.current = u;
-		}
-	}
-});
-
 app.constant('types', {
 	'disaster': ['Earthquake', 'Flood', 'Typhoon', 'Landslide', 'Anthropogenic'],
 	'project': ['Infrastructure', 'Medical', 'Equipment', 'Personnel']
 });
 
-app.factory('sampleData', function(types, users, reqList){
+app.factory('sampleData', function(types, users){
 	return {
 		genFromType: function(type){
 			var n = Math.random() * types[type].length;
@@ -100,22 +42,94 @@ app.factory('sampleData', function(types, users, reqList){
 			}
 		},
 		genReqList: function(qty){
+			var list = [];
 			for(var i = 0; i < qty; i++){
-				reqList.push(this.genRequest());
+				list.push(this.genRequest());
 			}
+			return list;
 		}
 	}
 });
 
+app.factory('users', function(){
+	var l = [
+		{
+			type: 'LGU',
+			name: 'Mayor Lucia L. Astorga',
+			income: null,
+			address: {
+				district: null,
+				department: null,
+				region: 8,
+				province: 'Western Samar',
+				city: null,
+				town: 'Daram',
+				barangay: null,
+				sitio: null
+			}
+		},
+		{
+			type: 'LGU',
+			name: 'Mayor Pepe Bawagan',
+			income: null,
+			address: {
+				district: null,
+				department: null,
+				region: 8,
+				province: 'Eastern Samar',
+				city: null,
+				town: 'PepeVille',
+				barangay: null,
+				sitio: null
+			}
+		},
+		{
+			type: 'NDRRMC',
+			name: 'Philip Cheang',
+			income: null,
+			address: {
+				district: null,
+				department: 'NDRRMC',
+				region: null,
+				province: null,
+				city: null,
+				town: null,
+				barangay: null,
+				sitio: null
+			}
+		}
+	];
+	var u = {
+		list: l,
+		current: l[0],
+		switchTo: function(u){
+			this.current = u;
+		}
+	}
+	return u;
+});
+
+app.factory('requests', function(sampleData){
+	var l = sampleData.genReqList(10);
+
+	var reqs = {
+		list: l,
+		current: l[0], 
+		addSampleData: function(qty){
+			this.list = this.list.concat(sampleData.genReqList(qty));
+		}
+	}
+	return reqs;
+});
+
 // controllers
 
-app.controller('Main', function($scope, users, reqList, userList, sampleData){
-	$scope.reqList = reqList;
-	$scope.userList = userList;
+app.controller('Main', function($scope, users, requests, sampleData){
+	$scope.requests = requests;
 	$scope.users = users;
 	$scope.curView = 'List';
 	$scope.sampleData = sampleData;
-	$scope.sampleData.genReqList(10);
+	// $scope.sampleData.genReqList(10);
 
 	$scope.getCurUser = function(){
 		return users.current;
@@ -130,12 +144,12 @@ app.controller('List', function($scope, users){
 	$scope.users = users;
 });
 
-app.controller('Detail', function($scope, users, curReq){
+app.controller('Detail', function($scope, users, requests){
 	$scope.users = users;
-	$scope.curReq = curReq;
+	$scope.requests = requests;
 });
 
-app.controller('New', function($scope, users, types, reqList){
+app.controller('New', function($scope, users, types, requests){
 	var reqProto = {
 		date: null, // auto
 		code: null, // auto
@@ -172,10 +186,9 @@ app.controller('New', function($scope, users, types, reqList){
 		$scope.curReq.code = $scope.generateCode($scope.curReq);
 
 		// push to array
-		reqList.push($scope.curReq);
+		requests.list.push($scope.curReq);
 		$scope.curReq = {};
 		curReq = {};
-		console.log(reqList);
 
 		// go back to list
 		$scope.setView('List');
