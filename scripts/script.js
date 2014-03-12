@@ -4,7 +4,15 @@ var app = angular.module('recon', []);
 
 app.constant('types', {
 	'disaster': ['Earthquake', 'Flood', 'Typhoon', 'Landslide', 'Anthropogenic'],
-	'project': ['Infrastructure', 'Medical', 'Equipment', 'Personnel']
+	'project': ['Infrastructure', 'Medical', 'Equipment', 'Personnel'],
+	'descriptions': [
+		'Boats and shit',
+		'These equipments, you know. I need them.',
+		'omg, have you seen these trees? we gotta plant more!',
+		'the whole town kinda burnt down and we pretty much need to build the whole thing again. Seriously guys. This is the tenth time.',
+		'EVERYONE IS DEAD. WE NEED TO REPOPULATE',
+		'Rubber boat plzkthnx'
+	]
 });
 
 app.factory('sampleData', function(types, users){
@@ -19,7 +27,7 @@ app.factory('sampleData', function(types, users){
 		genAmount: function(){
 			return Math.round(Math.random() * 100) * 100000;
 		},
-		genName: function(){return 'Project Name'},
+		genName: function(){return 'Placeholder Name'},
 		genRequest: function(){
 			var self = this;
 			return {
@@ -36,7 +44,7 @@ app.factory('sampleData', function(types, users){
 				amount: self.genAmount(),
 				project: {
 					type: self.genProjectType(),
-					description: null
+					description: self.genFromType('descriptions')
 				},
 				remarks: null
 			}
@@ -131,17 +139,14 @@ app.controller('Main', function($scope, users, requests, sampleData){
 	$scope.sampleData = sampleData;
 	// $scope.sampleData.genReqList(10);
 
-	$scope.getCurUser = function(){
-		return users.current;
-	}
-
 	$scope.setView = function(str){
 		$scope.curView = str;
 	}
 });
 
-app.controller('List', function($scope, users){
+app.controller('List', function($scope, users, requests){
 	$scope.users = users;
+	$scope.requests = requests;
 });
 
 app.controller('Detail', function($scope, users, requests){

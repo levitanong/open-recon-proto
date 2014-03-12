@@ -61,7 +61,7 @@
 			</div>
 			<div class="columns large-8">
 				<ul>
-					<li ng-repeat="req in requests.list">
+					<li ng-repeat="req in requests.list" ng-click="requests.current = req; setView('Detail')">
 						{{req.date | date:'MMM d'}}
 						{{req.code}}
 						{{req.disaster.type}}
@@ -77,7 +77,32 @@
 
 <!-- request detail -->
 <div ng-controller="Detail" ng-if="curView == 'Detail'">
+	<section>
+		<div class="row">
+			{{requests.current}}
+			<h3>
+				{{requests.current.code}}
+			</h3>
+			<h1>
+				{{requests.current.project.description}}
+			</h1>
+			<h3>
+				{{requests.current.date | date: 'MMM d, yyyy'}}
+			</h3>
 
+			<h2>
+				Disaster
+			</h2>
+			<h4>Name</h4>
+			<p>{{requests.current.disaster.name}}</p>
+			<h4>Type</h4>
+			<p>{{requests.current.disaster.type}}</p>
+			<h4>Date</h4>
+			<p>{{requests.current.disaster.date | date: 'MMM d, yyyy'}}</p>
+			<h4 ng-if="requests.current.disaster.cause">Cause</h4>
+			<p>{{requests.current.disaster.cause}}</p>
+		</div>
+	</section>
 </div>
 
 <!-- new request -->
