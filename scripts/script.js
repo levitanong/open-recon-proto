@@ -18,7 +18,7 @@ app.constant('types', {
 app.factory('sampleData', function(types, users){
 	return {
 		genFromType: function(type){
-			var n = Math.random() * types[type].length;
+			var n = Math.random() * (types[type].length - 1);
 			var index = Math.round(n);
 			return types[type][index];
 		},
@@ -41,10 +41,10 @@ app.factory('sampleData', function(types, users){
 				},
 				author: users.current,
 				implementingAgency: null,
-				amount: self.genAmount(),
 				project: {
 					type: self.genProjectType(),
-					description: self.genFromType('descriptions')
+					description: self.genFromType('descriptions'),
+					amount: self.genAmount()
 				},
 				remarks: null
 			}
@@ -166,10 +166,10 @@ app.controller('New', function($scope, users, types, requests){
 		},
 		author: null, // auto
 		implementingAgency: null, // auto
-		amount: 0,
 		project: {
 			type: 'Infrastructure',
-			description: null
+			description: null,
+			amount: 0
 		},
 		remarks: null
 	};

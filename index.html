@@ -62,12 +62,12 @@
 			<div class="columns large-8">
 				<ul>
 					<li ng-repeat="req in requests.list" ng-click="requests.current = req; setView('Detail')">
-						{{req.date | date:'MMM d'}}
-						{{req.code}}
+						<!-- {{req.date | date:'MMM d'}} -->
+						<!-- {{req.code}} -->
 						{{req.disaster.type}}
-						{{req.project.type}}
+						<span class="label radius">{{req.project.type}}</span>
 						{{req.project.description}}
-						{{req.amount | number}}
+						{{req.project.amount | number}}
 					</li>
 				</ul>
 			</div>
@@ -80,27 +80,37 @@
 	<section>
 		<div class="row">
 			{{requests.current}}
-			<h3>
-				{{requests.current.code}}
-			</h3>
-			<h1>
-				{{requests.current.project.description}}
-			</h1>
-			<h3>
-				{{requests.current.date | date: 'MMM d, yyyy'}}
-			</h3>
+			<div class="columns large-3">
+				approval controls go here
+			</div>
+			<div class="columns large-6">
+				<h3>
+					{{requests.current.code}}
+				</h3>
+				<h1>
+					{{requests.current.project.description}}
+				</h1>
+				<h3>
+					{{requests.current.date | date: 'MMM d, yyyy'}}
+				</h3>
+				<span class="label radius">{{requests.current.project.type}}</span>
+				<h4>Amount</h4>
+				<p>{{requests.current.project.amount}}</p>
+			</div>
 
-			<h2>
-				Disaster
-			</h2>
-			<h4>Name</h4>
-			<p>{{requests.current.disaster.name}}</p>
-			<h4>Type</h4>
-			<p>{{requests.current.disaster.type}}</p>
-			<h4>Date</h4>
-			<p>{{requests.current.disaster.date | date: 'MMM d, yyyy'}}</p>
-			<h4 ng-if="requests.current.disaster.cause">Cause</h4>
-			<p>{{requests.current.disaster.cause}}</p>
+			<div class="columns large-3">
+				<h2>
+					Disaster
+				</h2>
+				<h4>Name</h4>
+				<p>{{requests.current.disaster.name}}</p>
+				<h4>Type</h4>
+				<p>{{requests.current.disaster.type}}</p>
+				<h4>Date</h4>
+				<p>{{requests.current.disaster.date | date: 'MMM d, yyyy'}}</p>
+				<h4 ng-if="requests.current.disaster.cause">Cause</h4>
+				<p>{{requests.current.disaster.cause}}</p>
+			</div>
 		</div>
 	</section>
 </div>
@@ -154,7 +164,7 @@
 						</label>
 						<label>
 							Requested Amount
-							<input type="number" ng-model="getCurReq().amount" />
+							<input type="number" ng-model="getCurReq().project.amount" />
 						</label>
 					</fieldset>
 					<!-- <label>
