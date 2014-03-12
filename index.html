@@ -28,13 +28,13 @@
 				<a ng-click="sampleData.genReqList(10)">Generate Sample Data</a>
 			</li>
 			<li class="has-dropdown not-click">
-				<a href="#">{{getCurUser().name}}</a>
+				<a href="#">{{users.current.name}}</a>
 				<ul class="dropdown">
 					<li>
 						<a ng-click="setView('Account')">Account Details</a>
 					</li>
 					<li ng-repeat="user in userList">
-						<a ng-click="switchUser($index)">Switch to {{user.name}}</a>
+						<a ng-click="users.switchTo(user)">Switch to {{user.name}}</a>
 					</li>
 				</ul>
 			</li>
@@ -73,6 +73,11 @@
 			</div>
 		</div>
 	</section>
+</div>
+
+<!-- request detail -->
+<div ng-controller="Detail" ng-if="curView == 'Detail'">
+
 </div>
 
 <!-- new request -->
@@ -146,8 +151,8 @@
 <div ng-controller="Account" ng-if="curView == 'Account'">
 	<section>
 		<div class="row">
-			<h1>Hi, {{getCurUser().name}}!</h1>
-			<div ng-repeat="(key, value) in getCurUser().address" ng-show="value">
+			<h1>Hi, {{users.current.name}}!</h1>
+			<div ng-repeat="(key, value) in users.current.address" ng-show="value">
 				{{key}}: {{value}}
 			</div>
 		</div>

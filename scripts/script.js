@@ -50,14 +50,22 @@ app.value('userList', [
 		}
 	}
 ]);
-app.value('curUser', {id: 0});
+
+app.factory('users', function(userList){
+	return {
+		current: userList[0],
+		switchTo: function(u){
+			this.current = u;
+		}
+	}
+});
 
 app.constant('types', {
 	'disaster': ['Earthquake', 'Flood', 'Typhoon', 'Landslide', 'Anthropogenic'],
 	'project': ['Infrastructure', 'Medical', 'Equipment', 'Personnel']
 });
 
-app.factory('sampleData', function(types, curUser, reqList, userList){
+app.factory('sampleData', function(types, users, reqList){
 	return {
 		genFromType: function(type){
 			var n = Math.random() * types[type].length;
@@ -81,7 +89,7 @@ app.factory('sampleData', function(types, curUser, reqList, userList){
 					date: new Date(Date.now()),
 					cause: null
 				},
-				author: userList[curUser.id],
+				author: users.current,
 				implementingAgency: null,
 				amount: self.genAmount(),
 				project: {
@@ -101,32 +109,33 @@ app.factory('sampleData', function(types, curUser, reqList, userList){
 
 // controllers
 
-app.controller('Main', function($scope, curUser, reqList, userList, sampleData){
+app.controller('Main', function($scope, users, reqList, userList, sampleData){
 	$scope.reqList = reqList;
 	$scope.userList = userList;
-	$scope.curUser = curUser;
+	$scope.users = users;
 	$scope.curView = 'List';
 	$scope.sampleData = sampleData;
 	$scope.sampleData.genReqList(10);
 
 	$scope.getCurUser = function(){
-		return $scope.userList[$scope.curUser.id];
+		return users.current;
 	}
 
 	$scope.setView = function(str){
 		$scope.curView = str;
 	}
-
-	$scope.switchUser = function(id){
-		curUser.id = id;
-	}
 });
 
-app.controller('List', function($scope, curUser){
-	$scope.curUser = curUser;
+app.controller('List', function($scope, users){
+	$scope.users = users;
 });
 
-app.controller('New', function($scope, curUser, types, reqList, userList){
+app.controller('Detail', function($scope, users, curReq){
+	$scope.users = users;
+	$scope.curReq = curReq;
+});
+
+app.controller('New', function($scope, users, types, reqList){
 	var reqProto = {
 		date: null, // auto
 		code: null, // auto
@@ -146,7 +155,7 @@ app.controller('New', function($scope, curUser, types, reqList, userList){
 		remarks: null
 	};
 	$scope.curReq = reqProto;
-	$scope.curUser = curUser;
+	$scope.users = users;
 	$scope.types = types;
 	$scope.getCurReq = function(){
 		return $scope.curReq;
@@ -157,7 +166,7 @@ app.controller('New', function($scope, curUser, types, reqList, userList){
 	}
 	$scope.submit = function(){
 		$scope.curReq.date = new Date(Date.now());
-		$scope.curReq.author = userList[curUser.id];
+		$scope.curReq.author = users.current;
 
 		// below always has to be last, because generate code via UACS
 		$scope.curReq.code = $scope.generateCode($scope.curReq);
@@ -173,8 +182,7 @@ app.controller('New', function($scope, curUser, types, reqList, userList){
 	}
 });
 
-app.controller('Account', function($scope, curUser, userList){
-	$scope.userList = userList;
-	$scope.curUser = curUser;
+app.controller('Account', function($scope, users){
+	$scope.users = users;
 
 });
