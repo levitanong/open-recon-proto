@@ -23,7 +23,10 @@
 	<section class="top-bar-section">
 		<ul class="right">
 			<li>
-				<a ng-click="setView('Account')">Logged in as: {{curUser.name}}</a>
+				<a ng-click="sampleData.genReqList(10)">Generate Sample Data</a>
+			</li>
+			<li>
+				<a ng-click="setView('Account')">{{curUser.name}}</a>
 			</li>
 		</ul>
 	</section>
@@ -43,9 +46,16 @@
 	</section>
 	<section>
 		<div class="row">
-			<div ng-repeat="req in reqList">
-				{{req}}
-			</div>
+			<ul>
+				<li ng-repeat="req in reqList">
+					{{req.date | date:'MMM d'}}
+					{{req.code}}
+					{{req.disaster.type}}
+					{{req.project.type}}
+					{{req.project.description}}
+					{{req.amount | number}}
+				</li>
+			</ul>
 		</div>
 	</section>
 </div>
@@ -54,13 +64,66 @@
 <div ng-controller="New" ng-if="curView == 'New'">
 	<section>
 		<div class="row">
-			<h1>
-				New Request
-			</h1>
-			<button class="button alert" ng-click="setView('List')">
-				Cancel
-			</button>
+			<div class="columns large-12">
+				<h1>
+					New Request
+				</h1>
+			</div>
 		</div>
+	</section>
+	<section>
+		<form ng-submit="submit()">
+			<div class="row">
+				<div class="columns large-8">
+					<fieldset>
+						<legend>
+							Disaster
+						</legend>
+						<label>
+							Type
+							<select ng-model="getCurReq().disaster.type" ng-options="type for type in types.disaster">
+							</select>
+						</label>
+						<label>
+							Name
+							<input type="text" ng-model="getCurReq().disaster.name" />
+
+						</label>
+						<label ng-if="getCurReq().disaster.type == 'Anthropogenic'">
+							Cause
+							<input type="text"  ng-model="getCurReq().disaster.cause" />
+						</label>
+					</fieldset>
+					<fieldset>
+						<legend>
+							Project
+						</legend>
+						<label>
+							Project Type
+							<select ng-model="getCurReq().project.type" ng-options="type for type in types.project">
+							</select>
+						</label>
+						<label>
+							Description
+							<textarea ng-model="getCurReq().project.description"></textarea>
+						</label>
+						<label>
+							Requested Amount
+							<input type="number" ng-model="getCurReq().amount" />
+						</label>
+					</fieldset>
+					<!-- <label>
+						Upload Attachments
+					</label> -->
+					<button class="button">
+						Submit
+					</button>
+					<button class="button alert" ng-click="setView('List')">
+						Cancel
+					</button>
+				</div>
+			</div>
+		</form>
 	</section>
 </div>
 
