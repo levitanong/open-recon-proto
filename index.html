@@ -6,13 +6,15 @@
 	<link rel="stylesheet" type="text/css" href="styles/css/style.css">
 
 	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="bower_components/foundation/js/foundation.min.js"></script>
 	<script type="text/javascript" src="scripts/script.js"></script>
 	
 </head>
 <body ng-controller="Main">
 
 <!-- nav -->
-<nav class="top-bar">
+<nav class="top-bar" data-topbar>
 	<ul class="title-area">
 		<li class="name">
 			<h1>
@@ -25,8 +27,16 @@
 			<li>
 				<a ng-click="sampleData.genReqList(10)">Generate Sample Data</a>
 			</li>
-			<li>
-				<a ng-click="setView('Account')">{{curUser.name}}</a>
+			<li class="has-dropdown not-click">
+				<a href="#">{{userList[curUser.id].name}}</a>
+				<ul class="dropdown">
+					<li>
+						<a ng-click="setView('Account')">Account Details</a>
+					</li>
+					<li ng-repeat="user in userList">
+						<a ng-click="switchUser($index)">Switch to {{user.name}}</a>
+					</li>
+				</ul>
 			</li>
 		</ul>
 	</section>
@@ -46,16 +56,21 @@
 	</section>
 	<section>
 		<div class="row">
-			<ul>
-				<li ng-repeat="req in reqList">
-					{{req.date | date:'MMM d'}}
-					{{req.code}}
-					{{req.disaster.type}}
-					{{req.project.type}}
-					{{req.project.description}}
-					{{req.amount | number}}
-				</li>
-			</ul>
+			<div class="columns large-4">
+				Hi
+			</div>
+			<div class="columns large-8">
+				<ul>
+					<li ng-repeat="req in reqList">
+						{{req.date | date:'MMM d'}}
+						{{req.code}}
+						{{req.disaster.type}}
+						{{req.project.type}}
+						{{req.project.description}}
+						{{req.amount | number}}
+					</li>
+				</ul>
+			</div>
 		</div>
 	</section>
 </div>
@@ -131,8 +146,8 @@
 <div ng-controller="Account" ng-if="curView == 'Account'">
 	<section>
 		<div class="row">
-			<h1>Hi, {{curUser.name}}!</h1>
-			<div ng-repeat="(key, value) in curUser.address" ng-show="value">
+			<h1>Hi, {{userList[curUser.id].name}}!</h1>
+			<div ng-repeat="(key, value) in userList[curUser.id].address" ng-show="value">
 				{{key}}: {{value}}
 			</div>
 		</div>

@@ -2,29 +2,62 @@ var app = angular.module('recon', []);
 
 // values and constants
 
-app.constant('curUser', {
-	name: 'Mayor Lucia L. Astorga',
-	income: null,
-	address: {
-		district: null,
-		department: null,
-		region: 8,
-		province: 'Western Samar',
-		city: null,
-		town: 'Daram',
-		barangay: null,
-		sitio: null
+app.value('reqList', []);
+app.value('userList', [
+	{
+		type: 'LGU',
+		name: 'Mayor Lucia L. Astorga',
+		income: null,
+		address: {
+			district: null,
+			department: null,
+			region: 8,
+			province: 'Western Samar',
+			city: null,
+			town: 'Daram',
+			barangay: null,
+			sitio: null
+		}
+	},
+	{
+		type: 'LGU',
+		name: 'Mayor Pepe Bawagan',
+		income: null,
+		address: {
+			district: null,
+			department: null,
+			region: 8,
+			province: 'Eastern Samar',
+			city: null,
+			town: 'PepeVille',
+			barangay: null,
+			sitio: null
+		}
+	},
+	{
+		type: 'NDRRMC',
+		name: 'Philip Cheang',
+		income: null,
+		address: {
+			district: null,
+			department: 'NDRRMC',
+			region: null,
+			province: null,
+			city: null,
+			town: null,
+			barangay: null,
+			sitio: null
+		}
 	}
-});
+]);
+app.value('curUser', {id: 0});
 
 app.constant('types', {
 	'disaster': ['Earthquake', 'Flood', 'Typhoon', 'Landslide', 'Anthropogenic'],
 	'project': ['Infrastructure', 'Medical', 'Equipment', 'Personnel']
 });
 
-app.value('reqList', []);
-
-app.factory('sampleData', function(types, curUser, reqList){
+app.factory('sampleData', function(types, curUser, reqList, userList){
 	return {
 		genFromType: function(type){
 			var n = Math.random() * types[type].length;
@@ -48,7 +81,7 @@ app.factory('sampleData', function(types, curUser, reqList){
 					date: new Date(Date.now()),
 					cause: null
 				},
-				author: curUser,
+				author: userList[curUser.id],
 				implementingAgency: null,
 				amount: self.genAmount(),
 				project: {
@@ -68,21 +101,28 @@ app.factory('sampleData', function(types, curUser, reqList){
 
 // controllers
 
-app.controller('Main', function($scope, curUser, reqList, sampleData){
+app.controller('Main', function($scope, curUser, reqList, userList, sampleData){
 	$scope.reqList = reqList;
+	$scope.userList = userList;
 	$scope.curUser = curUser;
+	// $scope.curUser = userList[curUser];
 	$scope.curView = 'List';
 	$scope.sampleData = sampleData;
 
 	$scope.setView = function(str){
 		$scope.curView = str;
 	}
+
+	$scope.switchUser = function(id){
+		curUser.id = id;
+	}
 });
 
-app.controller('List', function($scope){
+app.controller('List', function($scope, curUser){
+	$scope.curUser = curUser;
 });
 
-app.controller('New', function($scope, curUser, types, reqList){
+app.controller('New', function($scope, curUser, types, reqList, userList){
 	var reqProto = {
 		date: null, // auto
 		code: null, // auto
@@ -102,6 +142,7 @@ app.controller('New', function($scope, curUser, types, reqList){
 		remarks: null
 	};
 	$scope.curReq = reqProto;
+	$scope.curUser = curUser;
 	$scope.types = types;
 	$scope.getCurReq = function(){
 		return $scope.curReq;
@@ -112,7 +153,7 @@ app.controller('New', function($scope, curUser, types, reqList){
 	}
 	$scope.submit = function(){
 		$scope.curReq.date = new Date(Date.now());
-		$scope.curReq.author = curUser;
+		$scope.curReq.author = userList[curUser.id];
 
 		// below always has to be last, because generate code via UACS
 		$scope.curReq.code = $scope.generateCode($scope.curReq);
@@ -128,7 +169,8 @@ app.controller('New', function($scope, curUser, types, reqList){
 	}
 });
 
-app.controller('Account', function($scope, curUser){
+app.controller('Account', function($scope, curUser, userList){
+	$scope.userList = userList;
 	$scope.curUser = curUser;
 
 });
