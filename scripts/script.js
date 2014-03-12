@@ -105,9 +105,13 @@ app.controller('Main', function($scope, curUser, reqList, userList, sampleData){
 	$scope.reqList = reqList;
 	$scope.userList = userList;
 	$scope.curUser = curUser;
-	// $scope.curUser = userList[curUser];
 	$scope.curView = 'List';
 	$scope.sampleData = sampleData;
+	$scope.sampleData.genReqList(10);
+
+	$scope.getCurUser = function(){
+		return $scope.userList[$scope.curUser.id];
+	}
 
 	$scope.setView = function(str){
 		$scope.curView = str;
