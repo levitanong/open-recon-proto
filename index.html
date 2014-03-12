@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html ng-app="recon">
+<head>
+
+	<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/css/style.css">
+
+	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="scripts/script.js"></script>
+	
+</head>
+<body ng-controller="Main">
+
+<!-- nav -->
+<nav class="top-bar">
+	<ul class="title-area">
+		<li class="name">
+			<h1>
+				<a href="#" ng-click="setView('List')">Open Reconstruction</a>
+			</h1>
+		</li>
+	</ul>
+	<section class="top-bar-section">
+		<ul class="right">
+			<li>
+				<a ng-click="setView('Account')">Logged in as: {{curUser.name}}</a>
+			</li>
+		</ul>
+	</section>
+</nav>
+
+<!-- main -->
+<div ng-controller="List" ng-if="curView == 'List'">
+	<section>
+		<div class="row">
+			<h1>
+				List of Requests
+			</h1>
+			<button class="button" ng-click="setView('New')">
+				new
+			</button>
+		</div>
+	</section>
+	<section>
+		<div class="row">
+			<div ng-repeat="req in reqList">
+				{{req}}
+			</div>
+		</div>
+	</section>
+</div>
+
+<!-- new request -->
+<div ng-controller="New" ng-if="curView == 'New'">
+	<section>
+		<div class="row">
+			<h1>
+				New Request
+			</h1>
+			<button class="button alert" ng-click="setView('List')">
+				Cancel
+			</button>
+		</div>
+	</section>
+</div>
+
+<!-- account -->
+<div ng-controller="Account" ng-if="curView == 'Account'">
+	<section>
+		<div class="row">
+			<h1>Hi, {{curUser.name}}!</h1>
+			<div ng-repeat="(key, value) in curUser.address" ng-show="value">
+				{{key}}: {{value}}
+			</div>
+		</div>
+	</section>
+</div>
+
+</body>
+</html>
