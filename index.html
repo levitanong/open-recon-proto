@@ -85,7 +85,7 @@
 		<div class="row">
 			<!-- <div class="columns large-3">
 			</div> -->
-			<div class="columns large-8">
+			<div class="columns large-9">
 				<!-- <h2>
 					Request
 				</h2> -->
@@ -116,18 +116,29 @@
 				</div>
 			</div>
 
-			<div class="columns large-4">
-				<h2>
-					Disaster
-				</h2>
-				<h4>Name</h4>
-				<p>{{requests.current.disaster.name}}</p>
-				<h4>Type</h4>
-				<p>{{requests.current.disaster.type}}</p>
-				<h4>Date</h4>
-				<p>{{requests.current.disaster.date | date: 'MMM d, yyyy'}}</p>
-				<h4 ng-if="requests.current.disaster.cause">Cause</h4>
-				<p>{{requests.current.disaster.cause}}</p>
+			<div class="columns large-3">
+				<div class="disaster">
+					<h2>
+						Disaster
+					</h2>
+					<h4>Name</h4>
+					<p>{{requests.current.disaster.name}}</p>
+					<h4>Type</h4>
+					<p>{{requests.current.disaster.type}}</p>
+					<h4>Date</h4>
+					<p>{{requests.current.disaster.date | date: 'MMM d, yyyy'}}</p>
+					<h4 ng-if="requests.current.disaster.cause">Cause</h4>
+					<p>{{requests.current.disaster.cause}}</p>
+				</div>
+				<div class="location">
+					<h2>
+						Location
+					</h2>
+					<div ng-repeat="(key, value) in requests.current.author.address" ng-show="value">
+						<h4>{{key}}</h4>
+						<p>{{value}}</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
