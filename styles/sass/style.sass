@@ -19,6 +19,9 @@ ul
 button
 	outline: none
 
+h1
+	font-weight: bold
+
 .button.warning
 	+button($padding: $button-sml, $bg: $orange)
 .button.white
@@ -80,4 +83,53 @@ button
 		+border-right-radius(3px)
 		.label
 			+label($bg: darken($teal, 10%))
+
+.bubble
+	border: 1px solid $silver
+	border-radius: 3px
+	padding: 20px
+
+.comment
+	.portrait
+		float: left
+	.bubble
+		margin-left: 90px
+		min-height: 72px
+		
+
+.response
+	margin-bottom: 20px
+	.decision
+		p
+			text-align: center
+	.header
+		position: relative
+		.rule
+			position: absolute
+			width: calc(50% - 48px)
+			top: 36px
+			margin: 0
+			&.l
+				left: 0
+			&.r
+				right: 0
+
+.seal
+	height: 72px
+	width: 72px
+	border-radius: 50%
+	font-size: 48px
+	text-align: center
+	line-height: 64px
+	margin: 0px auto 10px
+
+.approval
+	.seal
+		background-color: $teal
+		color: darken($teal, 10%)
+
+.rejection
+	.seal
+		background-color: $red
+		color: darken($red, 20%)
 

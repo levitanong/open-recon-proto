@@ -197,7 +197,7 @@ app.controller('Detail', function($scope, users, requests, levels){
         $scope.requests.current.level++;
         break;
       case 'rejection':
-        $scope.requests.isRejected = true;
+        $scope.requests.current.isRejected = true;
         break;
     }
 

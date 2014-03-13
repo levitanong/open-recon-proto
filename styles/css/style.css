@@ -6726,6 +6726,9 @@ ul {
 button {
   outline: none; }
 
+h1 {
+  font-weight: bold; }
+
 .button.warning {
   border-style: solid;
   border-width: 0px;
@@ -6861,3 +6864,47 @@ button {
       font-size: 0.6875rem;
       background-color: #2ba7a7;
       color: white; }
+
+.bubble {
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  padding: 20px; }
+
+.comment .portrait {
+  float: left; }
+.comment .bubble {
+  margin-left: 90px;
+  min-height: 72px; }
+
+.response {
+  margin-bottom: 20px; }
+  .response .decision p {
+    text-align: center; }
+  .response .header {
+    position: relative; }
+    .response .header .rule {
+      position: absolute;
+      width: calc(50% - 48px);
+      top: 36px;
+      margin: 0; }
+      .response .header .rule.l {
+        left: 0; }
+      .response .header .rule.r {
+        right: 0; }
+
+.seal {
+  height: 72px;
+  width: 72px;
+  border-radius: 50%;
+  font-size: 48px;
+  text-align: center;
+  line-height: 64px;
+  margin: 0px auto 10px; }
+
+.approval .seal {
+  background-color: #39cccc;
+  color: #2ba7a7; }
+
+.rejection .seal {
+  background-color: #ff4136;
+  color: #cf0b00; }

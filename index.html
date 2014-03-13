@@ -118,8 +118,36 @@
 				<p>{{requests.current.project.amount}}</p>
 				<hr />
 				<div class="response" ng-repeat="response in requests.current.history">
-					{{response.type}} by {{response.author.name}} on {{response.timestamp | date: 'MMM d'}}.
-					<p>{{response.comment}}</p>
+					<div class="comment" ng-if="response.type == 'comment'">
+						<img class="portrait med" ng-src="{{response.author.picture}}" />
+						<div class="bubble">
+							{{response.type}} by {{response.author.name}} on {{response.timestamp | date: 'MMM d'}}.
+							<p>{{response.comment}}</p>
+						</div>
+					</div>
+					<div class="decision" ng-class="{'approval': response.type == 'approval', 'rejection': response.type == 'rejection'}" ng-if="response.type == 'approval' || response.type == 'rejection'">
+						<div class="header">
+							<hr class="rule l" />
+							<div class="seal">
+								<i class="fa fa-check" ng-if="response.type == 'approval'"></i>
+								<i class="fa fa-times" ng-if="response.type == 'rejection'"></i>
+							</div>
+							<hr class="rule r" />
+						</div>
+						<p>
+							<span ng-if="response.type == 'approval'">
+								Approved
+							</span> 
+							<span ng-if="response.type == 'rejection'">
+								Rejected
+							</span>
+							by {{response.author.name}} on {{response.timestamp | date: 'MMM d'}}
+						</p>
+						<p>
+							{{response.comment}}
+						</p>
+						<hr />
+					</div>
 				</div>
 				<div class="actions row">
 					<form ng-submit="submit()">
@@ -132,14 +160,14 @@
 									Comment
 								</button>
 							</li>
-							<li ng-if="users.current.level == requests.current.level">
+							<li ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
 								<button 
 								class="button small"
 								ng-click="response.type = 'approval'">
 									<span ng-if="comment">Comment and</span>  Approve
 								</button>
 							</li>
-							<li ng-if="users.current.level == requests.current.level">
+							<li ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
 								<button class="button small alert" ng-click="response.type = 'rejection'">
 								<span ng-if="comment && users.current.level == request.current.level">Comment and</span> Reject
 								</button>
@@ -147,6 +175,11 @@
 							<li ng-if="users.current.level < requests.current.level && users.current.level > 0">
 								<div class="thing">
 									This has already been approved at your level
+								</div>
+							</li>
+							<li ng-if="requests.current.isRejected">
+								<div class="thing">
+									This has been rejected at your level
 								</div>
 							</li>
 						</ul>
