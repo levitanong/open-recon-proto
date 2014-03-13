@@ -132,17 +132,22 @@
 									Comment
 								</button>
 							</li>
-							<li ng-if="users.current.type != 'LGU'">
+							<li ng-if="users.current.level == requests.current.level">
 								<button 
 								class="button small"
 								ng-click="response.type = 'approval'">
 									<span ng-if="comment">Comment and</span>  Approve
 								</button>
 							</li>
-							<li ng-if="users.current.type != 'LGU'">
+							<li ng-if="users.current.level == requests.current.level">
 								<button class="button small alert" ng-click="response.type = 'rejection'">
-								<span ng-if="comment">Comment and</span> Reject
+								<span ng-if="comment && users.current.level == request.current.level">Comment and</span> Reject
 								</button>
+							</li>
+							<li ng-if="users.current.level < requests.current.level && users.current.level > 0">
+								<div class="thing">
+									This has already been approved at your level
+								</div>
 							</li>
 						</ul>
 					</form>
@@ -250,6 +255,7 @@
 		<div class="row">
 			<img class="portrait lrg" ng-src="{{users.current.picture}}">
 			<h1>Hi, {{users.current.name}}!</h1>
+			{{users.current.level}}
 			<div ng-repeat="(key, value) in users.current.address" ng-show="value">
 				{{key}}: {{value}}
 			</div>
