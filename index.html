@@ -81,7 +81,6 @@
 <!-- request detail -->
 <div ng-controller="Detail" ng-if="curView == 'Detail'">
 	<section>
-		{{requests.current}}
 		<div class="row">
 			<!-- <div class="columns large-3">
 			</div> -->
@@ -101,16 +100,17 @@
 				<span class="label radius">{{requests.current.project.type}}</span>
 				<h4>Amount</h4>
 				<p>{{requests.current.project.amount}}</p>
-				<div class="actions row" ng-if="users.current.type != 'LGU'">
+				<div class="actions row">
+					<textarea ng-model="comment"></textarea>
 					<ul class="button-group">
-						<li><button class="button small success">
-							Approve
+						<li><button class="button small secondary">
+							Comment
 						</button></li>
-						<li><button class="button small warning">
-							Approve with Provisions
+						<li ng-if="users.current.type != 'LGU'"><button class="button small">
+							<span ng-if="comment">Comment and</span>  Approve
 						</button></li>
-						<li><button class="button small alert">
-							Reject
+						<li ng-if="users.current.type != 'LGU'"><button class="button small alert">
+							<span ng-if="comment">Comment and</span> Reject
 						</button></li>
 					</ul>
 				</div>

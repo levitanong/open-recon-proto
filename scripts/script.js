@@ -152,6 +152,7 @@ app.controller('List', function($scope, users, requests){
 app.controller('Detail', function($scope, users, requests){
 	$scope.users = users;
 	$scope.requests = requests;
+	$scope.comment = '';
 });
 
 app.controller('New', function($scope, users, types, requests){
