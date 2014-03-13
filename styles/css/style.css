@@ -6800,3 +6800,62 @@ button {
 
 .top-bar .portrait {
   margin-right: 10px; }
+
+.prog {
+  *zoom: 1;
+  width: 100%;
+  background-color: #eeeeee;
+  color: #aaaaaa;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 20px 0px;
+  line-height: 30px; }
+  .prog:before, .prog:after {
+    content: " ";
+    display: table; }
+  .prog:after {
+    clear: both; }
+  .prog .step {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 25%;
+    float: left;
+    padding: 20px;
+    font-weight: bold; }
+  .prog .approved {
+    background-color: #39cccc;
+    color: white; }
+    .prog .approved .label {
+      font-weight: normal;
+      font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+      text-align: center;
+      text-decoration: none;
+      line-height: 1;
+      white-space: nowrap;
+      display: inline-block;
+      position: relative;
+      margin-bottom: inherit;
+      padding: 0.25rem 0.5rem 0.375rem;
+      font-size: 0.6875rem;
+      background-color: #30bbbb;
+      color: white; }
+  .prog .pending {
+    background-color: #30bbbb;
+    color: white;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px; }
+    .prog .pending .label {
+      font-weight: normal;
+      font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+      text-align: center;
+      text-decoration: none;
+      line-height: 1;
+      white-space: nowrap;
+      display: inline-block;
+      position: relative;
+      margin-bottom: inherit;
+      padding: 0.25rem 0.5rem 0.375rem;
+      font-size: 0.6875rem;
+      background-color: #2ba7a7;
+      color: white; }

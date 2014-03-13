@@ -177,15 +177,17 @@ app.controller('Main', function($scope, users, requests, sampleData, $http, rand
   
 });
 
-app.controller('List', function($scope, users, requests){
+app.controller('List', function($scope, users, requests, levels){
   $scope.users = users;
   $scope.requests = requests;
+  $scope.levels = levels;
 });
 
-app.controller('Detail', function($scope, users, requests){
+app.controller('Detail', function($scope, users, requests, levels){
   $scope.users = users;
   $scope.requests = requests;
   $scope.response = {comment: ''};
+  $scope.levels = levels;
   $scope.submit = function(){
     $scope.response.timestamp = new Date(Date.now());
     $scope.response.author = users.current;

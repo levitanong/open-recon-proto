@@ -84,12 +84,26 @@
 <div ng-controller="Detail" ng-if="curView == 'Detail'">
 	<section>
 		<div class="row">
+			<div class="prog">
+				<div class="step" ng-repeat="level in levels" ng-if="!$first" ng-class="{approved: $index < requests.current.level, pending: $index == requests.current.level}">
+					{{level}}
+					<span class="label" ng-if="$index < requests.current.level">
+						<i class="fa fa-check"></i>
+					</span>
+					<span class="label" ng-if="$index == requests.current.level">
+						Pending
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
 			<!-- <div class="columns large-3">
 			</div> -->
 			<div class="columns large-9">
 				<!-- <h2>
 					Request
 				</h2> -->
+				<!-- {{levels[requests.current.level]}} -->
 				<h3>
 					Filed {{requests.current.date | date: 'MMM d, yyyy'}}
 				</h3>
