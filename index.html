@@ -121,7 +121,7 @@
 					<div class="comment" ng-if="response.type == 'comment'">
 						<img class="portrait med" ng-src="{{response.author.picture}}" />
 						<div class="bubble">
-							{{response.type}} by {{response.author.name}} on {{response.timestamp | date: 'MMM d'}}.
+							{{response.type}} by {{response.author.name}} {{response.timestamp | timeago}}.
 							<p>{{response.comment}}</p>
 						</div>
 					</div>
@@ -141,7 +141,7 @@
 							<span ng-if="response.type == 'rejection'">
 								Rejected
 							</span>
-							by {{response.author.name}} on {{response.timestamp | date: 'MMM d'}}
+							by {{response.author.name}} on {{response.timestamp | date: 'MMM d'}}, {{response.timestamp | timeago}}
 						</p>
 						<p>
 							{{response.comment}}
