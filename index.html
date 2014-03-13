@@ -103,19 +103,35 @@
 				<h4>Amount</h4>
 				<p>{{requests.current.project.amount}}</p>
 				<hr />
+				<div class="response" ng-repeat="response in requests.current.history">
+					{{response.type}} by {{response.author.name}} on {{response.timestamp | date: 'MMM d'}}.
+					<p>{{response.comment}}</p>
+				</div>
 				<div class="actions row">
-					<textarea ng-model="comment"></textarea>
-					<ul class="button-group">
-						<li><button class="button small white">
-							Comment
-						</button></li>
-						<li ng-if="users.current.type != 'LGU'"><button class="button small">
-							<span ng-if="comment">Comment and</span>  Approve
-						</button></li>
-						<li ng-if="users.current.type != 'LGU'"><button class="button small alert">
-							<span ng-if="comment">Comment and</span> Reject
-						</button></li>
-					</ul>
+					<form ng-submit="submit()">
+						<textarea ng-model="response.comment"></textarea>
+						<ul class="button-group">
+							<li>
+								<button 
+								class="button small white" 
+								ng-click="response.type = 'comment'">
+									Comment
+								</button>
+							</li>
+							<li ng-if="users.current.type != 'LGU'">
+								<button 
+								class="button small"
+								ng-click="response.type = 'approval'">
+									<span ng-if="comment">Comment and</span>  Approve
+								</button>
+							</li>
+							<li ng-if="users.current.type != 'LGU'">
+								<button class="button small alert" ng-click="response.type = 'rejection'">
+								<span ng-if="comment">Comment and</span> Reject
+								</button>
+							</li>
+						</ul>
+					</form>
 				</div>
 			</div>
 

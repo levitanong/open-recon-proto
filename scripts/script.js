@@ -15,6 +15,14 @@ app.constant('types', {
   ]
 });
 
+app.constant('levels', [
+  'LGU',
+  'NDRRMC',
+  'DPWH',
+  'OP',
+  'DBM'
+]);
+
 app.factory('sampleData', function(types, users){
   return {
     genFromType: function(type){
@@ -33,6 +41,8 @@ app.factory('sampleData', function(types, users){
       return {
         date: new Date(Date.now()),
         code: '123-456',
+        level: 1,
+        isRejected: false,
         disaster: {
           type: self.genDisasterType(),
           name: self.genName(),
@@ -46,7 +56,8 @@ app.factory('sampleData', function(types, users){
           description: self.genFromType('descriptions'),
           amount: self.genAmount()
         },
-        remarks: null
+        remarks: null,
+        history: []
       }
     },
     genReqList: function(qty){
@@ -74,7 +85,7 @@ app.factory('users', function(){
   
   var l = [
     {
-      type: 'LGU',
+      level: 0,
       name: 'Mayor Lucia L. Astorga',
       picture: null,
       income: null,
@@ -90,7 +101,7 @@ app.factory('users', function(){
       }
     },
     {
-      type: 'LGU',
+      level: 0,
       name: 'Mayor Pepe Bawagan',
       picture: null,
       income: null,
@@ -106,7 +117,7 @@ app.factory('users', function(){
       }
     },
     {
-      type: 'NDRRMC',
+      level: 1,
       name: 'Philip Cheang',
       picture: null,
       income: null,
@@ -174,13 +185,31 @@ app.controller('List', function($scope, users, requests){
 app.controller('Detail', function($scope, users, requests){
   $scope.users = users;
   $scope.requests = requests;
-  $scope.comment = '';
+  $scope.response = {comment: ''};
+  $scope.submit = function(){
+    $scope.response.timestamp = new Date(Date.now());
+    $scope.response.author = users.current;
+
+    switch($scope.response.type){
+      case 'approval':
+        $scope.requests.current.level++;
+        break;
+      case 'rejection':
+        $scope.requests.isRejected = true;
+        break;
+    }
+
+    requests.current.history.push($scope.response);
+    $scope.response = {comment: ''};
+  }
 });
 
 app.controller('New', function($scope, users, types, requests){
   var reqProto = {
     date: null, // auto
     code: null, // auto
+    level: 1,
+    isRejected: false,
     disaster: {
       type: 'Typhoon',
       name: null,
