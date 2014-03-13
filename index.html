@@ -64,10 +64,13 @@
 					<li ng-repeat="req in requests.list" ng-click="requests.current = req; setView('Detail')">
 						<!-- {{req.date | date:'MMM d'}} -->
 						<!-- {{req.code}} -->
-						{{req.disaster.type}}
+						<h5>
+							{{req.project.description}} 
+							<span class="right">{{req.project.amount | number}}</span>
+						</h5>
+						<span class="label radius alert">{{req.disaster.type}}</span>
 						<span class="label radius">{{req.project.type}}</span>
-						{{req.project.description}}
-						{{req.project.amount | number}}
+						
 					</li>
 				</ul>
 			</div>
@@ -78,27 +81,42 @@
 <!-- request detail -->
 <div ng-controller="Detail" ng-if="curView == 'Detail'">
 	<section>
+		{{requests.current}}
 		<div class="row">
-			{{requests.current}}
-			<div class="columns large-3">
-				approval controls go here
-			</div>
-			<div class="columns large-6">
+			<!-- <div class="columns large-3">
+			</div> -->
+			<div class="columns large-8">
+				<!-- <h2>
+					Request
+				</h2> -->
 				<h3>
-					{{requests.current.code}}
+					Filed {{requests.current.date | date: 'MMM d, yyyy'}}
 				</h3>
 				<h1>
 					{{requests.current.project.description}}
 				</h1>
 				<h3>
-					{{requests.current.date | date: 'MMM d, yyyy'}}
+					{{requests.current.code}}
 				</h3>
 				<span class="label radius">{{requests.current.project.type}}</span>
 				<h4>Amount</h4>
 				<p>{{requests.current.project.amount}}</p>
+				<div class="actions row" ng-if="users.current.type != 'LGU'">
+					<ul class="button-group">
+						<li><button class="button small success">
+							Approve
+						</button></li>
+						<li><button class="button small warning">
+							Approve with Provisions
+						</button></li>
+						<li><button class="button small alert">
+							Reject
+						</button></li>
+					</ul>
+				</div>
 			</div>
 
-			<div class="columns large-3">
+			<div class="columns large-4">
 				<h2>
 					Disaster
 				</h2>

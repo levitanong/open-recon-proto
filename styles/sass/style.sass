@@ -11,3 +11,23 @@ body
 
 form textarea, form select
 	margin-bottom: 1rem
+
+ul
+	margin: 0
+	list-style: none
+
+button
+	outline: none
+
+.button.warning
+	+button($padding: $button-sml, $bg: $orange)
+	// background-color: $orange
+
+.actions
+	// text-align: center
+	padding: 20px
+	background-color: #eee
+	.button-group
+		display: inline-block
+	.button
+		margin-bottom: 0px
