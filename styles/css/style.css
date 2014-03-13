@@ -6785,3 +6785,18 @@ button {
     display: inline-block; }
   .actions .button {
     margin-bottom: 0px; }
+
+.portrait {
+  border-radius: 50%; }
+  .portrait.sml {
+    height: 32px;
+    width: 32px; }
+  .portrait.med {
+    height: 64px;
+    width: 64px; }
+  .portrait.lrg {
+    height: 128px;
+    width: 128px; }
+
+.top-bar .portrait {
+  margin-right: 10px; }

@@ -28,7 +28,9 @@
 				<a ng-click="requests.addSampleData(10)">Generate Sample Data</a>
 			</li>
 			<li class="has-dropdown not-click">
-				<a href="#">{{users.current.name}}</a>
+				<a href="#">
+					<img class="portrait sml" ng-src="{{users.current.picture}}">{{users.current.name}}
+				</a>
 				<ul class="dropdown">
 					<li>
 						<a ng-click="setView('Account')">Account Details</a>
@@ -216,6 +218,7 @@
 <div ng-controller="Account" ng-if="curView == 'Account'">
 	<section>
 		<div class="row">
+			<img class="portrait lrg" ng-src="{{users.current.picture}}">
 			<h1>Hi, {{users.current.name}}!</h1>
 			<div ng-repeat="(key, value) in users.current.address" ng-show="value">
 				{{key}}: {{value}}
