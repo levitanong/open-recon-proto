@@ -100,10 +100,11 @@
 				<span class="label radius">{{requests.current.project.type}}</span>
 				<h4>Amount</h4>
 				<p>{{requests.current.project.amount}}</p>
+				<hr />
 				<div class="actions row">
 					<textarea ng-model="comment"></textarea>
 					<ul class="button-group">
-						<li><button class="button small secondary">
+						<li><button class="button small white">
 							Comment
 						</button></li>
 						<li ng-if="users.current.type != 'LGU'"><button class="button small">

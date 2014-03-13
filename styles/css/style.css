@@ -6752,6 +6752,32 @@ button {
   .button.warning:hover, .button.warning:focus {
     color: white; }
 
+.button.white {
+  border-style: solid;
+  border-width: 0px;
+  cursor: pointer;
+  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  line-height: normal;
+  margin: 0 0 1.25rem;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.875rem;
+  padding-right: 1.75rem;
+  padding-bottom: 0.9375rem;
+  padding-left: 1.75rem;
+  font-size: 0.8125rem;
+  /*     @else                            { font-size: $padding - rem-calc(2); } */
+  background-color: white;
+  border-color: #cccccc;
+  color: #333333; }
+  .button.white:hover, .button.white:focus {
+    background-color: #cccccc; }
+  .button.white:hover, .button.white:focus {
+    color: #333333; }
+
 .actions {
   padding: 20px;
   background-color: #eeeeee; }
