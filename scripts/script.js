@@ -116,7 +116,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
           date: new Date(Date.now()),
           cause: null
         },
-        author: users.current,
+        author: users.list.filter(function(user){return user.level == 0})[0],
         implementingAgency: null,
         project: {
           type: self.genFromArray(types.project),
@@ -232,7 +232,6 @@ app.factory('responses', function(){
 
       request.history.push(r);
       request.level++;
-      console.log(request.history);
       return request;
     },
     reject: function(user, request){
@@ -288,6 +287,13 @@ app.controller('List', function($scope, users, requests, levels){
   $scope.users = users;
   $scope.requests = requests;
   $scope.levels = levels;
+  $scope.filterReq = {};
+
+  if(users.current.level){
+    $scope.filterReq.level = users.current.level;
+  } else {
+    $scope.filterReq.level = 1;
+  }
 });
 
 app.controller('Detail', function($scope, users, requests, levels, responses){

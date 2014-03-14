@@ -51,7 +51,7 @@
 			<h1>
 				List of Requests
 			</h1>
-			<button class="button" ng-click="setView('New')">
+			<button class="button" ng-click="setView('New')" ng-if="users.current.level == 0">
 				new
 			</button>
 		</div>
@@ -59,11 +59,14 @@
 	<section>
 		<div class="row">
 			<div class="columns large-4">
-				Hi
+				hi
 			</div>
 			<div class="columns large-8">
+				<button class="button small secondary" ng-repeat="level in levels" ng-click="filterReq.level = $index" ng-if="!$first" ng-class="{warning: filterReq.level == $index}">
+				 	{{level}}
+				</button>
 				<ul>
-					<li ng-repeat="req in requests.list" ng-click="requests.current = req; setView('Detail')">
+					<li class="request" ng-repeat="req in requests.list | filter:filterReq" ng-click="requests.current = req; setView('Detail')">
 						<!-- {{req.date | date:'MMM d'}} -->
 						<!-- {{req.code}} -->
 						<h5>
@@ -72,7 +75,7 @@
 						</h5>
 						<span class="label radius alert">{{req.disaster.type}}</span>
 						<span class="label radius">{{req.project.type}}</span>
-						<span class="label radius">{{req.level}}</span>
+						<span class="label radius">{{levels[req.level]}}</span>
 						
 					</li>
 				</ul>

@@ -6781,6 +6781,12 @@ h1 {
   .button.white:hover, .button.white:focus {
     color: #333333; }
 
+.request {
+  padding: 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px; }
+
 .actions {
   padding: 20px;
   background-color: #eeeeee; }
