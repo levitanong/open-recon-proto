@@ -12,7 +12,7 @@ app.constant('types', {
     'the whole town kinda burnt down and we pretty much need to build the whole thing again. Seriously guys. This is the tenth time.',
     'EVERYONE IS DEAD. WE NEED TO REPOPULATE',
     'Rubber boat plzkthnx'
-  ],
+  ]
 });
 
 app.constant('levels', [
@@ -94,6 +94,14 @@ app.factory('sampleData', function(types, users, $http){
     genAmount: function(){
       return Math.round(Math.random() * 100) * 100000;
     },
+    genInt: function(lower, upper){
+      if(typeof(upper) == 'undefined'){
+        // catches for when only one argument is added, meant for upper.
+        upper = lower;
+        lower = 0
+      }
+      return Math.round(Math.random() * (upper - lower)) + lower;
+    },
     genName: function(){return 'Placeholder Name'},
     genRequest: function(){
       var self = this;
@@ -119,6 +127,28 @@ app.factory('sampleData', function(types, users, $http){
         history: []
       }
     },
+    genUser: function(level){
+      var self = this;
+      return {
+        level: level,
+        name: {},
+        picture: null,
+        income: null,
+        address: {
+          district: null,
+          department: null,
+          region: 8,
+          province: 'Western Samar',
+          city: null,
+          town: 'Daram',
+          barangay: null,
+          sitio: null
+        },
+        getName: function(){
+          return this.name.first + ' ' + this.name.last;
+        }
+      }
+    },
     genReqList: function(qty){
       var list = [];
       for(var i = 0; i < qty; i++){
@@ -127,68 +157,27 @@ app.factory('sampleData', function(types, users, $http){
       return list;
     },
     genUsers: function(qty){
+      var self = this;
       if(!qty) qty = 1;
-      return $http({method: 'GET', url: 'http://api.randomuser.me/?results=' + qty});
+      $http({method: 'GET', url: 'http://api.randomuser.me/?results=' + qty})
+        .success(function(data){
+          var us = data.results;
+          for(var i = 0; i < qty; i++){
+            var u = self.genUser(i);
+            u.picture = us[i].user.picture;
+            u.name = us[i].user.name;
+            users.list.push(u);
+          }
+          users.current = users.list[0];
+        });
     }
   }
 });
 
 app.factory('users', function(){
-  // console.log(randomUser);
-  
-  var l = [
-    {
-      level: 0,
-      name: 'Mayor Lucia L. Astorga',
-      picture: null,
-      income: null,
-      address: {
-        district: null,
-        department: null,
-        region: 8,
-        province: 'Western Samar',
-        city: null,
-        town: 'Daram',
-        barangay: null,
-        sitio: null
-      }
-    },
-    {
-      level: 0,
-      name: 'Mayor Pepe Bawagan',
-      picture: null,
-      income: null,
-      address: {
-        district: null,
-        department: null,
-        region: 8,
-        province: 'Eastern Samar',
-        city: null,
-        town: 'PepeVille',
-        barangay: null,
-        sitio: null
-      }
-    },
-    {
-      level: 1,
-      name: 'Philip Cheang',
-      picture: null,
-      income: null,
-      address: {
-        district: null,
-        department: 'NDRRMC',
-        region: null,
-        province: null,
-        city: null,
-        town: null,
-        barangay: null,
-        sitio: null
-      }
-    }
-  ];
   var u = {
-    list: l,
-    current: l[0],
+    list: [],
+    current: {},
     switchTo: function(u){
       this.current = u;
     }
@@ -261,12 +250,8 @@ app.controller('Main', function($scope, users, requests, sampleData){
   $scope.users = users;
   $scope.curView = 'List';
   $scope.sampleData = sampleData;
-  sampleData.genUsers(3).success(function(data){
-    var us = data.results;
-    us.forEach(function(elem, index){
-      users.list[index].picture = elem.user.picture;
-    });
-  });
+
+  sampleData.genUsers(3);
   // console.log(p);
 
   $scope.setView = function(str){
@@ -285,15 +270,10 @@ app.controller('Detail', function($scope, users, requests, levels, responses){
   $scope.users = users;
   $scope.requests = requests;
   $scope.responses = responses;
-  // $scope.response = {comment: ''};
   $scope.levels = levels;
   $scope.submit = function(){
-    // $scope.response.timestamp = new Date(Date.now());
-    // $scope.response.author = users.current;
-
     switch($scope.responses.current.type){
       case 'approval':
-        // $scope.requests.current.level++;
         responses.approve(users.current, requests.current);
         break;
       case 'rejection':
@@ -302,8 +282,6 @@ app.controller('Detail', function($scope, users, requests, levels, responses){
       case 'comment': default:
         responses.comment(users.current, requests.current);
     }
-
-    // requests.current.history.push($scope.response);
     $scope.responses.reset();
   }
 });

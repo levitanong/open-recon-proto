@@ -29,14 +29,14 @@
 			</li>
 			<li class="has-dropdown not-click">
 				<a href="#">
-					<img class="portrait sml" ng-src="{{users.current.picture}}">{{users.current.name}}
+					<img class="portrait sml" ng-src="{{users.current.picture}}">{{users.current.getName()}}
 				</a>
 				<ul class="dropdown">
 					<li>
 						<a ng-click="setView('Account')">Account Details</a>
 					</li>
 					<li ng-repeat="user in users.list">
-						<a ng-click="users.switchTo(user)">Switch to {{user.name}}</a>
+						<a ng-click="users.switchTo(user)">Switch to {{user.getName()}}</a>
 					</li>
 				</ul>
 			</li>
@@ -287,7 +287,7 @@
 	<section>
 		<div class="row">
 			<img class="portrait lrg" ng-src="{{users.current.picture}}">
-			<h1>Hi, {{users.current.name}}!</h1>
+			<h1>Hi, {{users.current.getName()}}!</h1>
 			{{users.current.level}}
 			<div ng-repeat="(key, value) in users.current.address" ng-show="value">
 				{{key}}: {{value}}
