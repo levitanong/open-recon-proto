@@ -12,7 +12,7 @@ app.constant('types', {
     'the whole town kinda burnt down and we pretty much need to build the whole thing again. Seriously guys. This is the tenth time.',
     'EVERYONE IS DEAD. WE NEED TO REPOPULATE',
     'Rubber boat plzkthnx'
-  ]
+  ],
 });
 
 app.constant('levels', [
@@ -209,6 +209,51 @@ app.factory('requests', function(sampleData){
   return reqs;
 });
 
+app.factory('responses', function(){
+  return {
+    current: {
+      timestamp: null,
+      author: null,
+      type: null,
+      comment: ''
+    },
+    approve: function(user, request){
+      this.current.timestamp = new Date(Date.now());
+      this.current.author = user; // change this to appropriate approval level
+      this.current.type = 'approval';
+
+      request.history.push(this.current);
+      request.level++;
+      return request;
+    },
+    reject: function(user, request){
+      this.current.timestamp = new Date(Date.now());
+      this.current.author = user; // change this to appropriate approval level
+      this.current.type = 'rejection';
+
+      request.history.push(this.current);
+      request.isRejected = true;
+      return request;
+    },
+    comment: function(user, request){
+      this.current.timestamp = new Date(Date.now());
+      this.current.author = user;
+      this.current.type = 'comment';
+
+      request.history.push(this.current);
+      return request;
+    }, 
+    reset: function(){
+      this.current = {
+        timestamp: null,
+        author: null,
+        type: null,
+        comment: ''
+      }
+    }
+  }
+});
+
 // controllers
 
 app.controller('Main', function($scope, users, requests, sampleData){
@@ -236,26 +281,30 @@ app.controller('List', function($scope, users, requests, levels){
   $scope.levels = levels;
 });
 
-app.controller('Detail', function($scope, users, requests, levels){
+app.controller('Detail', function($scope, users, requests, levels, responses){
   $scope.users = users;
   $scope.requests = requests;
-  $scope.response = {comment: ''};
+  $scope.responses = responses;
+  // $scope.response = {comment: ''};
   $scope.levels = levels;
   $scope.submit = function(){
-    $scope.response.timestamp = new Date(Date.now());
-    $scope.response.author = users.current;
+    // $scope.response.timestamp = new Date(Date.now());
+    // $scope.response.author = users.current;
 
-    switch($scope.response.type){
+    switch($scope.responses.current.type){
       case 'approval':
-        $scope.requests.current.level++;
+        // $scope.requests.current.level++;
+        responses.approve(users.current, requests.current);
         break;
       case 'rejection':
-        $scope.requests.current.isRejected = true;
+        responses.reject(users.current, requests.current);
         break;
+      case 'comment': default:
+        responses.comment(users.current, requests.current);
     }
 
-    requests.current.history.push($scope.response);
-    $scope.response = {comment: ''};
+    // requests.current.history.push($scope.response);
+    $scope.responses.reset();
   }
 });
 

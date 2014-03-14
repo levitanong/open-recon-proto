@@ -151,24 +151,24 @@
 				</div>
 				<div class="actions row">
 					<form ng-submit="submit()">
-						<textarea ng-model="response.comment"></textarea>
+						<textarea ng-model="responses.current.comment"></textarea>
 						<ul class="button-group">
 							<li>
 								<button 
 								class="button small white" 
-								ng-click="response.type = 'comment'">
+								ng-click="responses.current.type = 'comment'">
 									Comment
 								</button>
 							</li>
 							<li ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
 								<button 
 								class="button small"
-								ng-click="response.type = 'approval'">
+								ng-click="responses.current.type = 'approval'">
 									<span ng-if="comment">Comment and</span>  Approve
 								</button>
 							</li>
 							<li ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
-								<button class="button small alert" ng-click="response.type = 'rejection'">
+								<button class="button small alert" ng-click="responses.current.type = 'rejection'">
 								<span ng-if="comment && users.current.level == request.current.level">Comment and</span> Reject
 								</button>
 							</li>
