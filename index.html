@@ -52,7 +52,7 @@
 				<h1>
 					List of Requests
 					<button class="button small right success" ng-click="setView('New')" ng-if="users.current.level == 0">
-						new request
+						Make new request
 					</button>
 				</h1>
 				
@@ -65,8 +65,15 @@
 			<div class="columns large-3">
 				<button 
 				class="button small block" 
-				ng-click="filters.reset(); filters.current.author == users.current">
+				ng-click="filters.reset(); filters.current.author = users.current"
+				ng-if="users.current.level == 0">
 					Show my requests
+				</button>
+				<button
+				class="button small block" 
+				ng-click="filters.reset(); filters.current.level = users.current.level"
+				ng-if="users.current.level > 0">
+					Show requests assigned to me
 				</button>
 
 				<hr>
@@ -94,6 +101,7 @@
 				</button>
 			</div>
 			<div class="columns large-9">
+				<h5>Filter by progress</h5>
 				<ul class="button-group">
 					<Li><button class="button small secondary" ng-click="filters.reset();" ng-class="{warning: !filters.current.level}">
 						All
