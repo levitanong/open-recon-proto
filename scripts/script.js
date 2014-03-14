@@ -5,7 +5,7 @@ var app = angular.module('recon', []);
 app.constant('types', {
   'disaster': ['Earthquake', 'Flood', 'Typhoon', 'Landslide', 'Anthropogenic'],
   'project': ['Infrastructure', 'Medical', 'Equipment', 'Personnel'],
-  'descriptions': [
+  'description': [
     'Boats and shit',
     'These equipments, you know. I need them.',
     'omg, have you seen these trees? we gotta plant more!',
@@ -86,13 +86,11 @@ app.filter("timeago", function () {
 
 app.factory('sampleData', function(types, users){
   return {
-    genFromType: function(type){
-      var n = Math.random() * (types[type].length - 1);
+    genFromArray: function(arr){
+      var n = Math.random() * (arr.length - 1);
       var index = Math.round(n);
-      return types[type][index];
+      return arr[index];
     },
-    genDisasterType: function(){return this.genFromType('disaster');},
-    genProjectType: function(){return this.genFromType('project');},
     genAmount: function(){
       return Math.round(Math.random() * 100) * 100000;
     },
@@ -105,7 +103,7 @@ app.factory('sampleData', function(types, users){
         level: 1,
         isRejected: false,
         disaster: {
-          type: self.genDisasterType(),
+          type: self.genFromArray(types.disaster),
           name: self.genName(),
           date: new Date(Date.now()),
           cause: null
@@ -113,8 +111,8 @@ app.factory('sampleData', function(types, users){
         author: users.current,
         implementingAgency: null,
         project: {
-          type: self.genProjectType(),
-          description: self.genFromType('descriptions'),
+          type: self.genFromArray(types.project),
+          description: self.genFromArray(types.description),
           amount: self.genAmount()
         },
         remarks: null,
