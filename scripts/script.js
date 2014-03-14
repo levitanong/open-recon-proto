@@ -84,7 +84,7 @@ app.filter("timeago", function () {
 
 // Factories
 
-app.factory('sampleData', function(types, users, $http){
+app.factory('sampleData', function(types, users, requests, $http){
   return {
     genFromArray: function(arr){
       var n = Math.random() * (arr.length - 1);
@@ -169,6 +169,9 @@ app.factory('sampleData', function(types, users, $http){
             users.list.push(u);
           }
           users.current = users.list[0];
+
+          // now that users exist, generate requests.
+          requests.list = self.genReqList(10);
         });
     }
   }
@@ -185,15 +188,11 @@ app.factory('users', function(){
   return u;
 });
 
-app.factory('requests', function(sampleData){
-  var l = sampleData.genReqList(10);
+app.factory('requests', function(){
 
   var reqs = {
-    list: l,
-    current: l[0], 
-    addSampleData: function(qty){
-      this.list = this.list.concat(sampleData.genReqList(qty));
-    }
+    list: [],
+    current: {}, 
   }
   return reqs;
 });
