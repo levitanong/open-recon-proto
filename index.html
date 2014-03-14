@@ -44,7 +44,7 @@
 	</section>
 </nav>
 
-<!-- main -->
+<!-- list -->
 <div ng-controller="List" ng-if="curView == 'List'">
 	<section>
 		<div class="row">
@@ -72,6 +72,7 @@
 						</h5>
 						<span class="label radius alert">{{req.disaster.type}}</span>
 						<span class="label radius">{{req.project.type}}</span>
+						<span class="label radius">{{req.level}}</span>
 						
 					</li>
 				</ul>
@@ -121,7 +122,7 @@
 					<div class="comment" ng-if="response.type == 'comment'">
 						<img class="portrait med" ng-src="{{response.author.picture}}" />
 						<div class="bubble">
-							{{response.type}} by {{response.author.name}} {{response.timestamp | timeago}}.
+							{{response.type}} by {{response.author.getName()}} {{response.timestamp | timeago}}.
 							<p>{{response.comment}}</p>
 						</div>
 					</div>
@@ -141,12 +142,11 @@
 							<span ng-if="response.type == 'rejection'">
 								Rejected
 							</span>
-							by {{response.author.name}} on {{response.timestamp | date: 'MMM d'}}, {{response.timestamp | timeago}}
+							by {{response.author.getName()}} on {{response.timestamp | date: 'MMM d'}}, {{response.timestamp | timeago}}
 						</p>
 						<p>
 							{{response.comment}}
 						</p>
-						<hr />
 					</div>
 				</div>
 				<div class="actions row">

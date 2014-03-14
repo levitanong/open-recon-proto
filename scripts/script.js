@@ -84,7 +84,7 @@ app.filter("timeago", function () {
 
 // Factories
 
-app.factory('sampleData', function(types, users, requests, $http){
+app.factory('sampleData', function(types, users, requests, responses, $http){
   return {
     genFromArray: function(arr){
       var n = Math.random() * (arr.length - 1);
@@ -171,8 +171,26 @@ app.factory('sampleData', function(types, users, requests, $http){
           users.current = users.list[0];
 
           // now that users exist, generate requests.
-          requests.list = self.genReqList(10);
+          requests.list = self.genReqList(20);
+          self.genResponses();
         });
+    },
+    genResponses: function(){
+      var self = this;
+      // for each request, generate a random target level.
+      requests.list.map(function(r){
+        var target = self.genInt(4);
+
+        // create an approval by authorized user for each step up to target
+        for(var i = 1; i < target; i++){
+          // find a user with authority for that level
+          var approver = users.list.filter(function(user){
+            return user.level == i;
+          })[0];
+          // approve
+          responses.approve(approver, r);
+        }
+      })
     }
   }
 });
@@ -206,29 +224,36 @@ app.factory('responses', function(){
       comment: ''
     },
     approve: function(user, request){
-      this.current.timestamp = new Date(Date.now());
-      this.current.author = user; // change this to appropriate approval level
-      this.current.type = 'approval';
+      var r = {};
+      r.timestamp = new Date(Date.now());
+      r.author = user; // change this to appropriate approval level
+      r.type = 'approval';
+      r.comment = this.current.comment;
 
-      request.history.push(this.current);
+      request.history.push(r);
       request.level++;
+      console.log(request.history);
       return request;
     },
     reject: function(user, request){
-      this.current.timestamp = new Date(Date.now());
-      this.current.author = user; // change this to appropriate approval level
-      this.current.type = 'rejection';
+      var r = {};
+      r.timestamp = new Date(Date.now());
+      r.author = user; // change this to appropriate approval level
+      r.type = 'rejection';
+      r.comment = this.current.comment;
 
-      request.history.push(this.current);
+      request.history.push(r);
       request.isRejected = true;
       return request;
     },
     comment: function(user, request){
-      this.current.timestamp = new Date(Date.now());
-      this.current.author = user;
-      this.current.type = 'comment';
+      var r = {};
+      r.timestamp = new Date(Date.now());
+      r.author = user;
+      r.type = 'comment';
+      r.comment = this.current.comment;
 
-      request.history.push(this.current);
+      request.history.push(r);
       return request;
     }, 
     reset: function(){
@@ -250,7 +275,7 @@ app.controller('Main', function($scope, users, requests, sampleData){
   $scope.curView = 'List';
   $scope.sampleData = sampleData;
 
-  sampleData.genUsers(3);
+  sampleData.genUsers(5);
   // console.log(p);
 
   $scope.setView = function(str){
