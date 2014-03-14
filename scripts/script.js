@@ -84,7 +84,7 @@ app.filter("timeago", function () {
 
 // Factories
 
-app.factory('sampleData', function(types, users){
+app.factory('sampleData', function(types, users, $http){
   return {
     genFromArray: function(arr){
       var n = Math.random() * (arr.length - 1);
@@ -125,18 +125,12 @@ app.factory('sampleData', function(types, users){
         list.push(this.genRequest());
       }
       return list;
-    }
-  }
-});
-
-app.factory('randomUser', function($http){
-  return {
-    async: function(qty){
+    },
+    genUsers: function(qty){
       if(!qty) qty = 1;
       return $http({method: 'GET', url: 'http://api.randomuser.me/?results=' + qty});
     }
   }
-  
 });
 
 app.factory('users', function(){
@@ -217,16 +211,16 @@ app.factory('requests', function(sampleData){
 
 // controllers
 
-app.controller('Main', function($scope, users, requests, sampleData, $http, randomUser){
+app.controller('Main', function($scope, users, requests, sampleData){
   $scope.requests = requests;
   $scope.users = users;
   $scope.curView = 'List';
   $scope.sampleData = sampleData;
-  randomUser.async(3).success(function(data){
+  sampleData.genUsers(3).success(function(data){
     var us = data.results;
     us.forEach(function(elem, index){
       users.list[index].picture = elem.user.picture;
-    })
+    });
   });
   // console.log(p);
 
