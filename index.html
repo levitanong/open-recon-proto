@@ -81,8 +81,15 @@
 				<h5>
 					Filter by Disaster Type
 				</h5>
+				<button
+				class="filter round"
+				ng-class="{active: !filters.current.disaster.type}"
+				ng-click="filters.reset();">
+					All
+				</button>
 				<button 
-				class="button small block secondary filter" 
+				class="filter round" 
+				ng-class="{active: filters.current.disaster.type == d}"
 				ng-repeat="d in types.disaster" 
 				ng-click="filters.reset(); filters.current.disaster.type = d">
 					{{d}}
@@ -93,15 +100,21 @@
 				<h5>
 					Filter by Project Type
 				</h5>
+				<button
+				class="filter round"
+				ng-class="{active: !filters.current.project.type}"
+				ng-click="filters.reset();">
+					All
+				</button>
 				<button 
-				class="button small block secondary filter" 
+				class="filter round" 
+				ng-class="{active: filters.current.project.type == p}"
 				ng-repeat="p in types.project" 
 				ng-click="filters.reset(); filters.current.project.type = p">
 					{{p}}
 				</button>
 			</div>
 			<div class="columns large-9">
-				<h5>Filter by progress</h5>
 				<ul class="button-group">
 					<Li><button class="button small secondary" ng-click="filters.reset();" ng-class="{warning: !filters.current.level}">
 						All
@@ -109,7 +122,10 @@
 					<li ng-repeat="level in levels"><button class="button small secondary" ng-click="filters.current.level = $index" ng-if="!$first" ng-class="{warning: filters.current.level == $index}">
 					 	{{level}}
 					</button></li>
-					</ul>
+				</ul>
+
+				<h3>Showing requests pending at the {{levels[filters.current.level]}} level.</h3>
+
 				<ul>
 					<li class="request" ng-repeat="req in requests.list | filter:filters.current" ng-click="requests.current = req; setView('Detail')">
 						<!-- {{req.date | date:'MMM d'}} -->

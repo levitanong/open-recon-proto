@@ -27,15 +27,21 @@ h1
 .header
 	padding-top: 40px
 
-.button.warning
+.button.warning, button.button.active
 	+button($padding: $button-sml, $bg: $orange)
 .button.white
 	+button($padding: $button-sml, $bg: $white)
-.button.block
+
+.filter
+	+button($padding: $button-tny, $bg: $white)
+	text-align: left
+	margin-bottom: 1px
 	display: block
 	width: 100%
-.filter
-	margin-bottom: 1px
+	&.active
+		+button($padding: $button-tny, $bg: $orange)
+		text-align: left
+		margin-bottom: 1px
 
 // .label.warning
 // 	+label($bg: darken($orange, 10%))

@@ -6735,7 +6735,7 @@ h1 {
 .header {
   padding-top: 40px; }
 
-.button.warning {
+.button.warning, button.button.active {
   border-style: solid;
   border-width: 0px;
   cursor: pointer;
@@ -6756,9 +6756,9 @@ h1 {
   background-color: #ff851b;
   border-color: #e26900;
   color: white; }
-  .button.warning:hover, .button.warning:focus {
+  .button.warning:hover, .button.warning:focus, button.button.active:hover, button.button.active:focus {
     background-color: #e26900; }
-  .button.warning:hover, .button.warning:focus {
+  .button.warning:hover, .button.warning:focus, button.button.active:hover, button.button.active:focus {
     color: white; }
 
 .button.white {
@@ -6787,12 +6787,62 @@ h1 {
   .button.white:hover, .button.white:focus {
     color: #333333; }
 
-.button.block {
+.filter {
+  border-style: solid;
+  border-width: 0px;
+  cursor: pointer;
+  font-family: "Roboto Condensed", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  line-height: normal;
+  margin: 0 0 1.25rem;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.625rem;
+  padding-right: 1.25rem;
+  padding-bottom: 0.6875rem;
+  padding-left: 1.25rem;
+  font-size: 0.6875rem;
+  /*     @else                            { font-size: $padding - rem-calc(2); } */
+  background-color: white;
+  border-color: #cccccc;
+  color: #333333;
+  text-align: left;
+  margin-bottom: 1px;
   display: block;
   width: 100%; }
-
-.filter {
-  margin-bottom: 1px; }
+  .filter:hover, .filter:focus {
+    background-color: #cccccc; }
+  .filter:hover, .filter:focus {
+    color: #333333; }
+  .filter.active {
+    border-style: solid;
+    border-width: 0px;
+    cursor: pointer;
+    font-family: "Roboto Condensed", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0 0 1.25rem;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    padding-top: 0.625rem;
+    padding-right: 1.25rem;
+    padding-bottom: 0.6875rem;
+    padding-left: 1.25rem;
+    font-size: 0.6875rem;
+    /*     @else                            { font-size: $padding - rem-calc(2); } */
+    background-color: #ff851b;
+    border-color: #e26900;
+    color: white;
+    text-align: left;
+    margin-bottom: 1px; }
+    .filter.active:hover, .filter.active:focus {
+      background-color: #e26900; }
+    .filter.active:hover, .filter.active:focus {
+      color: white; }
 
 .request {
   -webkit-transition: border 0.2s;
