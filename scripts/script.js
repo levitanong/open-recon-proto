@@ -335,7 +335,8 @@ app.controller('New', function($scope, users, types, requests){
       description: null,
       amount: 0
     },
-    remarks: null
+    remarks: null,
+    history: []
   };
   $scope.curReq = reqProto;
   $scope.users = users;

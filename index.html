@@ -48,12 +48,14 @@
 <div ng-controller="List" ng-if="curView == 'List'">
 	<section>
 		<div class="row">
-			<h1>
-				List of Requests
-			</h1>
-			<button class="button" ng-click="setView('New')" ng-if="users.current.level == 0">
-				new
-			</button>
+			<div class="columns large-12">
+				<h1>
+					List of Requests
+				</h1>
+				<button class="button" ng-click="setView('New')" ng-if="users.current.level == 0">
+					new
+				</button>
+			</div>
 		</div>
 	</section>
 	<section>
