@@ -266,6 +266,15 @@ app.factory('responses', function(){
   }
 });
 
+app.factory('filters', function(){
+  return {
+    current: {},
+    reset: function(){
+      this.current = {}
+    }
+  }
+})
+
 // controllers
 
 app.controller('Main', function($scope, users, requests, sampleData){
@@ -283,16 +292,17 @@ app.controller('Main', function($scope, users, requests, sampleData){
   
 });
 
-app.controller('List', function($scope, users, requests, levels){
+app.controller('List', function($scope, users, requests, levels, filters, types){
   $scope.users = users;
   $scope.requests = requests;
   $scope.levels = levels;
-  $scope.filterReq = {};
+  $scope.filters = filters;
+  $scope.types = types;
 
   if(users.current.level){
-    $scope.filterReq.level = users.current.level;
+    $scope.filters.current.level = users.current.level;
   } else {
-    $scope.filterReq.level = 1;
+    $scope.filters.current.level = 1;
   }
 });
 

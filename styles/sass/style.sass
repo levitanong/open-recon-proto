@@ -5,9 +5,11 @@
 @import "neat/neat"
 
 @import "variables"
+@import "typography"
 
 body
 	// background-color: $silver
+	font-family: "Roboto Condensed"
 
 form textarea, form select
 	margin-bottom: 1rem
@@ -22,19 +24,31 @@ button
 h1
 	font-weight: bold
 
+.header
+	padding-top: 40px
+
 .button.warning
 	+button($padding: $button-sml, $bg: $orange)
 .button.white
 	+button($padding: $button-sml, $bg: $white)
+.button.block
+	display: block
+	width: 100%
+.filter
+	margin-bottom: 1px
 
 // .label.warning
 // 	+label($bg: darken($orange, 10%))
 
 .request
+	+transition(border 0.2s)
 	padding: 20px
 	border: 1px solid $silver
 	border-radius: 3px
 	margin-bottom: 20px
+	cursor: pointer
+	&:hover
+		border: 1px solid $black
 
 .actions
 	// text-align: center
