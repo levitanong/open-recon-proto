@@ -14,12 +14,12 @@ app.constant('types', {
     'EVERYONE IS DEAD. WE NEED TO REPOPULATE',
     'Rubber boat plzkthnx'
   ],
-  'comments': [
+  'comment': [
     'What is this madness?',
     'I think this is awesome because reasons, and I think we should do it.',
-    'THIS SHALL NOT PASS',
-    ''
-  ]
+    'THIS SHALL NOT PASS'
+  ],
+  'revision': [null, 0.85, 0.70, 0.65, 0.50, 0.35, 0.2]
 });
 
 app.constant('levels', [
@@ -208,6 +208,11 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
           var approver = users.list.filter(function(user){
             return user.level == i;
           })[0];
+          // does this authorized user approve with revision?
+          var discount = self.genFromArray(types.revision);
+          if(discount){
+            responses.current.revised = r.project.amount * discount;
+          }
           // approve
           responses.approve(approver, r);
         }
