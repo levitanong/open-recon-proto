@@ -47,7 +47,7 @@
 <!-- list -->
 <div ng-controller="List" ng-if="curView == 'List'">
 	<section>
-		<div class="row header">
+		<header class="row header">
 			<div class="columns large-12">
 				<h1>
 					List of Requests
@@ -57,7 +57,7 @@
 				</h1>
 				
 			</div>
-		</div>
+		</header>
 	</section>
 	<hr>
 	<section>
@@ -172,7 +172,7 @@
 				<h4>Type</h4>
 				<p>{{requests.current.project.type}}</p>
 				<h4>Amount</h4>
-				<p>{{requests.current.project.amount}}</p>
+				<p>{{requests.current.project.amount | number}}</p>
 				<!-- attachments -->
 				<h4>Attachments</h4>
 				<ul class="attachments small-block-grid-3">
@@ -209,6 +209,9 @@
 								Rejected
 							</span>
 							by {{response.author.getName()}} on {{response.timestamp | date: 'MMM d'}}, {{response.timestamp | timeago}}
+						</p>
+						<p ng-if="response.revised">
+							Revised from {{response.previous | number}} to {{response.revised | number}}
 						</p>
 						<p>
 							{{response.comment}}

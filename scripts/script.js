@@ -243,7 +243,8 @@ app.factory('responses', function(){
       author: null,
       type: null,
       comment: '',
-      revised: null
+      revised: null,
+      previous: null
     },
     approve: function(user, request){
       var r = {};
@@ -251,10 +252,14 @@ app.factory('responses', function(){
       r.author = user; // change this to appropriate approval level
       r.type = 'approval';
       r.comment = this.current.comment;
-      r.revised = this.current.revised;
+      if(this.current.revised){
+        r.revised = this.current.revised;
+        r.previous = request.project.amount;
+      }
 
       request.history.push(r);
       request.level++;
+      request.project.amount = r.revised;
       return request;
     },
     reject: function(user, request){

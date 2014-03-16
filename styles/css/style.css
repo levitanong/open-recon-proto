@@ -6732,7 +6732,7 @@ button {
 h1 {
   font-weight: bold; }
 
-.header {
+header {
   padding-top: 40px; }
 
 .button.warning, button.button.active {
@@ -6954,7 +6954,8 @@ h1 {
 .response {
   margin-bottom: 20px; }
   .response .decision p {
-    text-align: center; }
+    text-align: center;
+    font-weight: bold; }
   .response .header {
     position: relative; }
     .response .header .rule {
