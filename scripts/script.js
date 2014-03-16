@@ -255,11 +255,11 @@ app.factory('responses', function(){
       if(this.current.revised){
         r.revised = this.current.revised;
         r.previous = request.project.amount;
+        request.project.amount = r.revised;
       }
 
       request.history.push(r);
       request.level++;
-      request.project.amount = r.revised;
       return request;
     },
     reject: function(user, request){
