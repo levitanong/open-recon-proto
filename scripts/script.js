@@ -13,6 +13,12 @@ app.constant('types', {
     'the whole town kinda burned down and we pretty much need to build the whole thing again. Seriously guys. This is the tenth time.',
     'EVERYONE IS DEAD. WE NEED TO REPOPULATE',
     'Rubber boat plzkthnx'
+  ],
+  'comments': [
+    'What is this madness?',
+    'I think this is awesome because reasons, and I think we should do it.',
+    'THIS SHALL NOT PASS',
+    ''
   ]
 });
 
@@ -236,7 +242,8 @@ app.factory('responses', function(){
       timestamp: null,
       author: null,
       type: null,
-      comment: ''
+      comment: '',
+      revised: null
     },
     approve: function(user, request){
       var r = {};
@@ -244,6 +251,7 @@ app.factory('responses', function(){
       r.author = user; // change this to appropriate approval level
       r.type = 'approval';
       r.comment = this.current.comment;
+      r.revised = this.current.revised;
 
       request.history.push(r);
       request.level++;

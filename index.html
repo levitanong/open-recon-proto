@@ -219,7 +219,7 @@
 					<form ng-submit="submit()">
 						<label ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
 							Revised Amount (optional)
-							<input ng-model="responses.current.revisedAmount" type="number">
+							<input ng-model="responses.current.revised" type="number">
 						</label>
 						<label>
 							Comment (optional)
@@ -230,7 +230,7 @@
 								<button 
 								class="button small white" 
 								ng-click="responses.current.type = 'comment'"
-								ng-disabled="!responses.current.comment || responses.current.revisedAmount">
+								ng-disabled="!responses.current.comment || responses.current.revised">
 									Comment
 								</button>
 							</li>
@@ -238,11 +238,17 @@
 								<button 
 								class="button small"
 								ng-click="responses.current.type = 'approval'">
-									<span ng-if="responses.current.comment">Comment and</span>  Approve
+									<span ng-if="responses.current.comment">
+										Comment and
+									</span>  
+									Approve 
+									<span ng-if="responses.current.revised">
+										with revisions
+									</span>
 								</button>
 							</li>
 							<li ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
-								<button class="button small alert" ng-click="responses.current.type = 'rejection'">
+								<button class="button small alert" ng-click="responses.current.type = 'rejection'" ng-disabled="responses.current.revised">
 								<span ng-if="responses.current.comment && users.current.level == request.current.level">Comment and</span> Reject
 								</button>
 							</li>
