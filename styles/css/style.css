@@ -6983,3 +6983,12 @@ h1 {
 .rejection .seal {
   background-color: #ff4136;
   color: #cf0b00; }
+
+.placeholder {
+  height: 144px;
+  background-color: #dddddd;
+  border: 1px solid #aaaaaa;
+  padding: 20px;
+  text-align: center; }
+  .placeholder h3 {
+    color: #aaaaaa; }

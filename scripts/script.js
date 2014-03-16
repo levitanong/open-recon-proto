@@ -3,13 +3,14 @@ var app = angular.module('recon', []);
 // values and constants
 
 app.constant('types', {
+  'disaster names': ['papang', 'pepeng', 'piping', 'popong', 'pupung'],
   'disaster': ['Earthquake', 'Flood', 'Typhoon', 'Landslide', 'Anthropogenic'],
   'project': ['Infrastructure', 'Medical', 'Equipment', 'Personnel'],
   'description': [
     'Boats and shit',
     'These equipments, you know. I need them.',
     'omg, have you seen these trees? we gotta plant more!',
-    'the whole town kinda burnt down and we pretty much need to build the whole thing again. Seriously guys. This is the tenth time.',
+    'the whole town kinda burned down and we pretty much need to build the whole thing again. Seriously guys. This is the tenth time.',
     'EVERYONE IS DEAD. WE NEED TO REPOPULATE',
     'Rubber boat plzkthnx'
   ]
@@ -105,6 +106,13 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
     genName: function(){return 'Placeholder Name'},
     genRequest: function(){
       var self = this;
+      var genArray = function(len){
+        var arr = [];
+        for (var i = 0; i < len; i++) {
+          arr.push({number: i});
+        };
+        return arr;
+      }
       return {
         date: new Date(Date.now()),
         code: '123-456',
@@ -112,7 +120,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
         isRejected: false,
         disaster: {
           type: self.genFromArray(types.disaster),
-          name: self.genName(),
+          name: self.genFromArray(types['disaster names']),
           date: new Date(Date.now()),
           cause: null
         },
@@ -124,7 +132,8 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
           amount: self.genAmount()
         },
         remarks: null,
-        history: []
+        history: [],
+        attachments: genArray(self.genInt(1, 6))
       }
     },
     genUser: function(level){
@@ -216,7 +225,7 @@ app.factory('requests', function(){
 
   var reqs = {
     list: [],
-    current: {}, 
+    current: {}
   }
   return reqs;
 });
@@ -352,7 +361,8 @@ app.controller('New', function($scope, users, types, requests){
       amount: 0
     },
     remarks: null,
-    history: []
+    history: [],
+    attachments: []
   };
   $scope.curReq = reqProto;
   $scope.users = users;

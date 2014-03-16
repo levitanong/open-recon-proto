@@ -169,13 +169,21 @@
 				<h1>
 					{{requests.current.project.description}}
 				</h1>
-				<h3>
-					{{requests.current.code}}
-				</h3>
-				<span class="label radius">{{requests.current.project.type}}</span>
+				<h4>Type</h4>
+				<p>{{requests.current.project.type}}</p>
 				<h4>Amount</h4>
 				<p>{{requests.current.project.amount}}</p>
+				<!-- attachments -->
+				<h4>Attachments</h4>
+				<ul class="attachments small-block-grid-3">
+					<li ng-repeat="a in requests.current.attachments">
+						<div class="placeholder">
+							<h3>Document {{a.number + 1}}</h3>
+						</div>
+					</li>
+				</ul>
 				<hr />
+				<!-- responses -->
 				<div class="response" ng-repeat="response in requests.current.history">
 					<div class="comment" ng-if="response.type == 'comment'">
 						<img class="portrait med" ng-src="{{response.author.picture}}" />
@@ -209,12 +217,20 @@
 				</div>
 				<div class="actions row">
 					<form ng-submit="submit()">
-						<textarea ng-model="responses.current.comment"></textarea>
+						<label ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
+							Revised Amount (optional)
+							<input ng-model="responses.current.revisedAmount" type="number">
+						</label>
+						<label>
+							Comment (optional)
+							<textarea ng-model="responses.current.comment"></textarea>
+						</label>	
 						<ul class="button-group">
 							<li>
 								<button 
 								class="button small white" 
-								ng-click="responses.current.type = 'comment'">
+								ng-click="responses.current.type = 'comment'"
+								ng-disabled="!responses.current.comment || responses.current.revisedAmount">
 									Comment
 								</button>
 							</li>
@@ -222,12 +238,12 @@
 								<button 
 								class="button small"
 								ng-click="responses.current.type = 'approval'">
-									<span ng-if="comment">Comment and</span>  Approve
+									<span ng-if="responses.current.comment">Comment and</span>  Approve
 								</button>
 							</li>
 							<li ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
 								<button class="button small alert" ng-click="responses.current.type = 'rejection'">
-								<span ng-if="comment && users.current.level == request.current.level">Comment and</span> Reject
+								<span ng-if="responses.current.comment && users.current.level == request.current.level">Comment and</span> Reject
 								</button>
 							</li>
 							<li ng-if="users.current.level < requests.current.level && users.current.level > 0">
@@ -325,15 +341,20 @@
 							<input type="number" ng-model="getCurReq().project.amount" />
 						</label>
 					</fieldset>
+					<button lass="button secondary">
+						Upload Attachments
+					</button>
 					<!-- <label>
 						Upload Attachments
 					</label> -->
-					<button class="button">
-						Submit
-					</button>
-					<button class="button alert" ng-click="setView('List')">
-						Cancel
-					</button>
+					<div class="actions">
+						<button class="button">
+							Submit
+						</button>
+						<button class="button alert" ng-click="setView('List')">
+							Cancel
+						</button>
+					</div>
 				</div>
 			</div>
 		</form>
