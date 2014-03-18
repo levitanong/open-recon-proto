@@ -23,6 +23,18 @@
 		</li>
 	</ul>
 	<section class="top-bar-section">
+		<ul class="left">
+			<li>
+				<a href="#" ng-click="setView('Overview')">
+					Overview
+				</a>
+			</li>
+			<li>
+				<a href="#" ng-click="setView('List')">
+					Projects
+				</a>
+			</li>
+		</ul>
 		<ul class="right">
 			<li>
 				<a ng-click="requests.addSampleData(10)">Generate Sample Data</a>
@@ -51,7 +63,9 @@
 </nav>
 <!-- public facing dashboard -->
 
-<div ng-controller="Public"></div>
+<div ng-controller="Overflow" ng-if="curView == 'Overview'">
+	hi
+</div>
 
 <!-- list -->
 <div ng-controller="List" ng-if="curView == 'List'">
@@ -59,7 +73,7 @@
 		<header class="row header">
 			<div class="columns large-12">
 				<h1>
-					List of Requests
+					List of Requested Projects
 					<button class="button small right white" ng-click="setView('New')" ng-if="users.current.level == 0">
 						Make new request
 					</button>
@@ -71,20 +85,53 @@
 
 	<section>
 		<div class="row">
-			<div class="columns large-3">
-				<button 
-				class="button small block" 
-				ng-click="filters.reset(); filters.current.author = users.current"
-				ng-if="users.current.level == 0">
-					Show my requests
-				</button>
-				<button
-				class="button small block" 
-				ng-click="filters.reset(); filters.current.level = users.current.level"
-				ng-if="users.current.level > 0">
-					Show requests assigned to me
-				</button>
+			
+			<div class="columns large-9">
+				<ul class="button-group">
+					<Li><button class="button small secondary" ng-click="filters.reset();" ng-class="{warning: !filters.current.level}">
+						All
+					</button></Li>
+					<li ng-repeat="level in levels"><button class="button small secondary" ng-click="filters.current.level = $index" ng-if="!$first" ng-class="{warning: filters.current.level == $index}">
+					 	{{level}}
+					</button></li>
+				</ul>
 
+				<h3 ng-if="filters.current.level">Showing requests pending at the {{levels[filters.current.level]}} level</h3>
+				<h3 ng-if="!filters.current.level">
+				Showing all requests
+				</h3>
+
+				<ul>
+					<li class="request" ng-repeat="req in requests.list | filter:filters.current" ng-click="requests.current = req; setView('Detail')">
+						<!-- {{req.date | date:'MMM d'}} -->
+						<!-- {{req.code}} -->
+						<h5>
+							{{req.project.description}} 
+							<span class="right">{{req.project.amount | number}}</span>
+						</h5>
+						<span class="label radius alert">{{req.disaster.type}}</span>
+						<span class="label radius">{{req.project.type}}</span>
+						<span class="label radius">{{levels[req.level]}}</span>
+						
+					</li>
+				</ul>
+			</div>
+
+			<div class="filters columns large-3">
+				<div class="clearfix">
+					<button 
+					class="button small right" 
+					ng-click="filters.reset(); filters.current.author = users.current"
+					ng-if="users.current.level == 0">
+						Show my requests
+					</button>
+					<button
+					class="button small right" 
+					ng-click="filters.reset(); filters.current.level = users.current.level"
+					ng-if="users.current.level > 0">
+						Show requests assigned to me
+					</button>
+				</div>
 				<h5>
 					Filter by Disaster Type
 				</h5>
@@ -123,36 +170,6 @@
 				ng-click="filters.reset(); filters.current.project.type = p">
 					{{p}}
 				</button>
-			</div>
-			<div class="columns large-9">
-				<ul class="button-group">
-					<Li><button class="button small secondary" ng-click="filters.reset();" ng-class="{warning: !filters.current.level}">
-						All
-					</button></Li>
-					<li ng-repeat="level in levels"><button class="button small secondary" ng-click="filters.current.level = $index" ng-if="!$first" ng-class="{warning: filters.current.level == $index}">
-					 	{{level}}
-					</button></li>
-				</ul>
-
-				<h3 ng-if="filters.current.level">Showing requests pending at the {{levels[filters.current.level]}} level</h3>
-				<h3 ng-if="!filters.current.level">
-				Showing all requests
-				</h3>
-
-				<ul>
-					<li class="request" ng-repeat="req in requests.list | filter:filters.current" ng-click="requests.current = req; setView('Detail')">
-						<!-- {{req.date | date:'MMM d'}} -->
-						<!-- {{req.code}} -->
-						<h5>
-							{{req.project.description}} 
-							<span class="right">{{req.project.amount | number}}</span>
-						</h5>
-						<span class="label radius alert">{{req.disaster.type}}</span>
-						<span class="label radius">{{req.project.type}}</span>
-						<span class="label radius">{{levels[req.level]}}</span>
-						
-					</li>
-				</ul>
 			</div>
 		</div>
 	</section>

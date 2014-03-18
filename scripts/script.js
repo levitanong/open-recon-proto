@@ -321,7 +321,7 @@ app.factory('filters', function(){
 app.controller('Main', function($scope, users, requests, sampleData){
   $scope.requests = requests;
   $scope.users = users;
-  $scope.curView = 'List';
+  $scope.curView = 'Overview';
   $scope.sampleData = sampleData;
 
   sampleData.genUsers(5);
@@ -333,7 +333,7 @@ app.controller('Main', function($scope, users, requests, sampleData){
   
 });
 
-app.controller('Public', function($scope){
+app.controller('Overflow', function($scope){
 
 });
 
