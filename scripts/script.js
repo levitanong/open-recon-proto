@@ -227,14 +227,14 @@ app.factory('users', function(){
   var u = {
     list: [],
     current: {},
-    loggedIn: true,
+    isLoggedIn: true,
     switchTo: function(u){
       this.current = u;
-      this.loggedIn = true;
+      this.isLoggedIn = true;
     },
     logout: function(){
       this.current = {};
-      this.loggedIn = false;
+      this.isLoggedIn = false;
     }
   }
   return u;

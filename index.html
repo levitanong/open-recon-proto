@@ -29,8 +29,8 @@
 			</li>
 			<li class="has-dropdown not-click">
 				<a href="#">
-					<img class="portrait sml" ng-src="{{users.current.picture}}" ng-if="users.loggedIn">{{users.current.getName()}}
-					<span ng-if="!users.loggedIn">Log in</span>
+					<img class="portrait sml" ng-src="{{users.current.picture}}" ng-if="users.isLoggedIn">{{users.current.getName()}}
+					<span ng-if="!users.isLoggedIn">Log in</span>
 				</a>
 				<ul class="dropdown">
 					<li>
@@ -39,7 +39,7 @@
 					<li ng-repeat="user in users.list">
 						<a ng-click="users.switchTo(user)">Switch to {{user.getName()}}</a>
 					</li>
-					<li ng-if="users.loggedIn">
+					<li ng-if="users.isLoggedIn">
 						<a ng-click="users.logout()">
 							Logout
 						</a>
@@ -85,7 +85,7 @@
 					Show requests assigned to me
 				</button>
 
-				<hr>
+				<hr ng-if="users.isLoggedIn">
 
 				<h5>
 					Filter by Disaster Type
@@ -109,6 +109,9 @@
 				<h5>
 					Filter by Project Type
 				</h5>
+				<ul class="tabs">
+
+				</ul>
 				<button
 				class="filter round"
 				ng-class="{active: !filters.current.project.type}"
@@ -163,6 +166,7 @@
 		<div class="row">
 			<div class="prog">
 				<div class="step" ng-repeat="level in levels" ng-if="!$first" ng-class="{approved: $index < requests.current.level, pending: $index == requests.current.level}">
+					<span class="number">{{$index}}</span>
 					{{level}}
 					<span class="label" ng-if="$index < requests.current.level">
 						<i class="fa fa-check"></i>
