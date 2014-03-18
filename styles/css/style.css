@@ -6739,6 +6739,8 @@ header {
 .banner {
   background-color: #ff851b;
   margin-bottom: 20px; }
+  .banner h1 {
+    color: white; }
 
 .button.warning, button.button.active {
   border-style: solid;

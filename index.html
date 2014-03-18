@@ -85,8 +85,6 @@
 					Show requests assigned to me
 				</button>
 
-				<hr ng-if="users.isLoggedIn">
-
 				<h5>
 					Filter by Disaster Type
 				</h5>
@@ -136,9 +134,9 @@
 					</button></li>
 				</ul>
 
-				<h3 ng-if="filters.current.level">Showing requests pending at the {{levels[filters.current.level]}} level.</h3>
+				<h3 ng-if="filters.current.level">Showing requests pending at the {{levels[filters.current.level]}} level</h3>
 				<h3 ng-if="!filters.current.level">
-				Showing all requests.
+				Showing all requests
 				</h3>
 
 				<ul>
