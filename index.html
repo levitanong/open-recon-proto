@@ -63,14 +63,27 @@
 </nav>
 <!-- public facing dashboard -->
 
-<div ng-controller="Overflow" ng-if="curView == 'Overview'">
-	hi
+<div ng-controller="Overview" ng-if="curView == 'Overview'">
+	<section class="banner">
+		<div class="row">
+			<div class="columns large-12">
+				<h1>
+					Overview
+				</h1>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="row">
+		insert data here
+		</div>
+	</section>
 </div>
 
 <!-- list -->
 <div ng-controller="List" ng-if="curView == 'List'">
 	<section class="banner">
-		<header class="row header">
+		<div class="row">
 			<div class="columns large-12">
 				<h1>
 					List of Requested Projects
@@ -80,7 +93,7 @@
 				</h1>
 				
 			</div>
-		</header>
+		</div>
 	</section>
 
 	<section>

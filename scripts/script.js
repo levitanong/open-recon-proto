@@ -333,7 +333,7 @@ app.controller('Main', function($scope, users, requests, sampleData){
   
 });
 
-app.controller('Overflow', function($scope){
+app.controller('Overview', function($scope){
 
 });
 
