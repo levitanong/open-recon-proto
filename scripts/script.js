@@ -333,6 +333,10 @@ app.controller('Main', function($scope, users, requests, sampleData){
   
 });
 
+app.controller('Public', function($scope){
+
+});
+
 app.controller('List', function($scope, users, requests, levels, filters, types){
   $scope.users = users;
   $scope.requests = requests;

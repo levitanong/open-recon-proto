@@ -49,6 +49,9 @@
 		</ul>
 	</section>
 </nav>
+<!-- public facing dashboard -->
+
+<div ng-controller="Public"></div>
 
 <!-- list -->
 <div ng-controller="List" ng-if="curView == 'List'">
@@ -130,7 +133,10 @@
 					</button></li>
 				</ul>
 
-				<h3>Showing requests pending at the {{levels[filters.current.level]}} level.</h3>
+				<h3 ng-if="filters.current.level">Showing requests pending at the {{levels[filters.current.level]}} level.</h3>
+				<h3 ng-if="!filters.current.level">
+				Showing all requests.
+				</h3>
 
 				<ul>
 					<li class="request" ng-repeat="req in requests.list | filter:filters.current" ng-click="requests.current = req; setView('Detail')">
