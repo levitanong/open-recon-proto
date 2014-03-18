@@ -55,12 +55,12 @@
 
 <!-- list -->
 <div ng-controller="List" ng-if="curView == 'List'">
-	<section>
+	<section class="banner">
 		<header class="row header">
 			<div class="columns large-12">
 				<h1>
 					List of Requests
-					<button class="button small right success" ng-click="setView('New')" ng-if="users.current.level == 0">
+					<button class="button small right white" ng-click="setView('New')" ng-if="users.current.level == 0">
 						Make new request
 					</button>
 				</h1>
@@ -68,7 +68,7 @@
 			</div>
 		</header>
 	</section>
-	<hr>
+
 	<section>
 		<div class="row">
 			<div class="columns large-3">
