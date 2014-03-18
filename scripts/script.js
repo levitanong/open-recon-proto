@@ -334,18 +334,24 @@ app.controller('Main', function($scope, users, requests, sampleData){
 });
 
 app.controller('Overview', function($scope, requests){
+  $scope.requests = requests;
   $scope.chartSeries = [
-    {"name": "Some data", "data": [1, 2, 4, 7, 3]},
-    {"name": "Some data 3", "data": [3, 1, null, 5, 2], connectNulls: true},
-    {"name": "Some data 2", "data": [5, 2, 2, 3, 5], type: "column"},
-    {"name": "My Super Column", "data": [1, 1, 2, 3, 2], type: "column"}
+    {"name": "Some data", "data": []}
   ];
 
+  $scope.$watch('requests.list', function(requestList){
+    if(requestList.length){
+      var derp = requestList.map(function(r){
+        return r.level;
+      });
+      $scope.chartSeries[0].data = derp;
+    }
+  });
 
   $scope.chartConfig = {
     options: {
       chart: {
-        type: 'areaspline'
+        type: 'pie'
       },
       plotOptions: {
         series: {
