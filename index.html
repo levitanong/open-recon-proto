@@ -29,7 +29,8 @@
 			</li>
 			<li class="has-dropdown not-click">
 				<a href="#">
-					<img class="portrait sml" ng-src="{{users.current.picture}}">{{users.current.getName()}}
+					<img class="portrait sml" ng-src="{{users.current.picture}}" ng-if="users.loggedIn">{{users.current.getName()}}
+					<span ng-if="!users.loggedIn">Log in</span>
 				</a>
 				<ul class="dropdown">
 					<li>
@@ -37,6 +38,11 @@
 					</li>
 					<li ng-repeat="user in users.list">
 						<a ng-click="users.switchTo(user)">Switch to {{user.getName()}}</a>
+					</li>
+					<li ng-if="users.loggedIn">
+						<a ng-click="users.logout()">
+							Logout
+						</a>
 					</li>
 				</ul>
 			</li>
@@ -233,7 +239,7 @@
 								<button 
 								class="button small white" 
 								ng-click="responses.current.type = 'comment'"
-								ng-disabled="!responses.current.comment || responses.current.revised">
+								>
 									Comment
 								</button>
 							</li>
@@ -332,6 +338,42 @@
 							<input type="text"  ng-model="getCurReq().disaster.cause" />
 						</label>
 					</fieldset>
+
+					<fieldset>
+						<legend>
+							Location
+						</legend>
+						<label>
+							region
+							<select ng-model="getCurReq().location.region" ng-options="type for type in types.region">
+							</select>
+						</label>
+						<label>
+							province
+							<input type="text" ng-model="getCurReq().location.province">
+						</label>
+						<label>
+							district
+							<input type="text" ng-model="getCurReq().location.district">
+						</label>
+						<label>
+							city
+							<input type="text" ng-model="getCurReq().location.city">
+						</label>
+						<label>
+							town
+							<input type="text" ng-model="getCurReq().location.town">
+						</label>
+						<label>
+							barangay
+							<input type="text" ng-model="getCurReq().location.barangay">
+						</label>
+						<label>
+							sitio
+							<input type="text" ng-model="getCurReq().location.sitio">
+						</label>
+					</fieldset>
+
 					<fieldset>
 						<legend>
 							Project

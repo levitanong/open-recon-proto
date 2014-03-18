@@ -5,7 +5,7 @@ var app = angular.module('recon', []);
 app.constant('types', {
   'disaster names': ['papang', 'pepeng', 'piping', 'popong', 'pupung'],
   'disaster': ['Earthquake', 'Flood', 'Typhoon', 'Landslide', 'Anthropogenic'],
-  'project': ['Infrastructure', 'Medical', 'Equipment', 'Personnel'],
+  'project': ['Infrastructure', 'Agriculture', 'School Building', 'Health Facilities', 'Shelter Units', 'Environment', 'Other'],
   'description': [
     'Boats and shit',
     'These equipments, you know. I need them.',
@@ -19,7 +19,8 @@ app.constant('types', {
     'I think this is awesome because reasons, and I think we should do it.',
     'THIS SHALL NOT PASS'
   ],
-  'revision': [null, 0.85, 0.70, 0.65, 0.50, 0.35, 0.2]
+  'revision': [null, 0.85, 0.70, 0.65, 0.50, 0.35, 0.2],
+  'region': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 'ARMM', 'NCR', 'CAR']
 });
 
 app.constant('levels', [
@@ -137,6 +138,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
           description: self.genFromArray(types.description),
           amount: self.genAmount()
         },
+        location: users.current.address,
         remarks: null,
         history: [],
         attachments: genArray(self.genInt(1, 6))
@@ -225,8 +227,14 @@ app.factory('users', function(){
   var u = {
     list: [],
     current: {},
+    loggedIn: true,
     switchTo: function(u){
       this.current = u;
+      this.loggedIn = true;
+    },
+    logout: function(){
+      this.current = {};
+      this.loggedIn = false;
     }
   }
   return u;
@@ -367,7 +375,7 @@ app.controller('New', function($scope, users, types, requests){
     isRejected: false,
     disaster: {
       type: 'Typhoon',
-      name: null,
+      name: 'Yolanda',
       date: null,
       cause: null
     },
@@ -380,7 +388,8 @@ app.controller('New', function($scope, users, types, requests){
     },
     remarks: null,
     history: [],
-    attachments: []
+    attachments: [],
+    location: users.current.address
   };
   $scope.curReq = reqProto;
   $scope.users = users;
