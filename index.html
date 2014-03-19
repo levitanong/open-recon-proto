@@ -205,8 +205,8 @@
 
 				<table>
 					<tr ng-repeat="req in requests.list | filter:filters.current">
-						<td>
-							{{req.date | date}}
+						<td class="text-center">
+							{{req.date | date: 'MMM d'}}
 						</td>
 						<td>
 							<a ng-click="requests.current = req; setView('Detail')">
@@ -217,7 +217,7 @@
 							{{req.project.amount | number}}
 						</td>
 						<td>
-							{{levels[req.level]}}
+							<span class="label">{{levels[req.level]}}</span>
 						</td>
 						<td>
 							<i 
@@ -334,6 +334,8 @@
 						<p>{{requests.current.project.amount | number}}</p>
 					</div>
 				</div>
+
+				<hr>
 				
 				
 				<!-- attachments -->
