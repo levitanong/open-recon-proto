@@ -123,7 +123,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
     },
     genDate: function(then){
       if(typeof(then) == "undefined"){
-        var then = new Date('January 1, 2010');
+        var then = new Date('January 1, 2013');
       }
       var now = new Date(Date.now());
       return new Date(now - Math.round((now - then) * Math.random()));
@@ -444,7 +444,8 @@ app.controller('Overview', function($scope, requests, levels, colors){
       style: {
         fontFamily: "Roboto Condensed",
         fontSize: 18
-      }
+      },
+      color: "#000"
     }
   ]
 
@@ -496,6 +497,23 @@ app.controller('Overview', function($scope, requests, levels, colors){
         },
         height: 300
       }
+    },
+    series: $scope.timeChartSeries,
+    title: {
+      text: 'Number of requests per month',
+      style: {
+        fontFamily: "Roboto Condensed",
+        color: "#000"
+      }
+    },
+    yAxis:{
+      title: {
+        text: "Number of Projects",
+        style:{
+          fontFamily: "Roboto Condensed",
+          color: "#000"
+        }
+      }
     }
   }
 
@@ -506,17 +524,21 @@ app.controller('Overview', function($scope, requests, levels, colors){
 
       var keys = base.keys().map(function(r){return levels[r[0]];}).value();
       var values = base.values().value();
-      // .pairs()
-      // .map(function(r){return [levels[r[0]], r[1]];})
-      // .value();
-      // console.log(countPairs);
       
       $scope.chartSeries[0].data = values;
       $scope.chartConfig.xAxis.categories = keys;
 
       // time chart series
 
+      var base2 = _.chain(requestList)
+      .countBy(function(r){
+        return r.date.getMonth() + ", " + r.date.getYear();
+      })
+      .pairs()
+      .value();
+      console.log(base2);
 
+      $scope.timeChartSeries[0].data = base2;
     }
   });
 
