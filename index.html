@@ -465,7 +465,7 @@
 
 <!-- new request -->
 <div ng-controller="New" ng-if="curView == 'New'">
-	<section>
+	<section class="banner">
 		<div class="row">
 			<div class="columns medium-12">
 				<h1>
@@ -474,88 +474,128 @@
 			</div>
 		</div>
 	</section>
-	<section>
-		<form ng-submit="submit()">
+	<form ng-submit="submit()">
+		<section class="pad">
 			<div class="row">
-				<div class="columns medium-8">
-					<fieldset>
-						<legend>
-							Disaster
-						</legend>
-						<label>
-							Type
-							<select ng-model="getCurReq().disaster.type" ng-options="type for type in types.disaster">
+				<div class="columns medium-2">
+					<i class="fa fa-cloud fa-5x fa-fw"></i>
+				</div>
+				<div class="columns medium-7">
+					<h2>Disaster</h2>
+					<label>
+						Type
+						<select ng-model="getCurReq().disaster.type" ng-options="type for type in types.disaster">
+						</select>
+					</label>
+					<label>
+						Name
+						<input type="text" ng-model="getCurReq().disaster.name" />
+
+					</label>
+					<label ng-if="getCurReq().disaster.type == 'Anthropogenic'">
+						Cause
+						<input type="text"  ng-model="getCurReq().disaster.cause" />
+					</label>
+				</div>
+				<div class="columns medium-3">
+					<p>
+						Specify the disaster to give everyone context about your request. Insert all these other details etc...
+					</p>
+				</div>
+			</div>
+		</section>
+		<section class="pad alt">
+			<div class="row">
+				<div class="columns medium-2">
+					<i class="fa fa-map-marker fa-5x fa-fw"></i>
+				</div>
+				<div class="columns medium-7">
+					<h2>Location</h2>
+					<div class="row">
+						<div class="columns medium-6">
+							<select ng-model="getCurReq().location.region" ng-options="type for type in types.region">
 							</select>
-						</label>
-						<label>
-							Name
-							<input type="text" ng-model="getCurReq().disaster.name" />
-
-						</label>
-						<label ng-if="getCurReq().disaster.type == 'Anthropogenic'">
-							Cause
-							<input type="text"  ng-model="getCurReq().disaster.cause" />
-						</label>
-					</fieldset>
-
-					<fieldset>
-						<legend>
-							Location
-						</legend>
-						<div class="row">
-							<div class="columns medium-6">
-								<select ng-model="getCurReq().location.region" ng-options="type for type in types.region">
-								</select>
-							</div>
-							<div class="columns medium-6">
-								<input type="text" ng-model="getCurReq().location.province">
-							</div>
 						</div>
-						<div class="row">
-							<div class="columns medium-6">
-								<input placeholder="district" type="text" ng-model="getCurReq().location.district">
-							</div>
-							<div class="columns medium-6">
-								<input placeholder="city" type="text" ng-model="getCurReq().location.city">
-							</div>
+						<div class="columns medium-6">
+							<input type="text" ng-model="getCurReq().location.province">
 						</div>
-						<div class="row">
-							<div class="columns medium-4">
-								<input placeholder="town" type="text" ng-model="getCurReq().location.town">
-							</div>
-							<div class="columns medium-4">
-								<input placeholder="barangay" type="text" ng-model="getCurReq().location.barangay">
-							</div>
-							<div class="columns medium-4">
-								<input placeholder="sitio" type="text" ng-model="getCurReq().location.sitio">
-							</div>
+					</div>
+					<div class="row">
+						<div class="columns medium-6">
+							<input placeholder="district" type="text" ng-model="getCurReq().location.district">
 						</div>
-					</fieldset>
-
-					<fieldset>
-						<legend>
-							Project
-						</legend>
-						<label>
-							Project Type
-							<select ng-model="getCurReq().project.type" ng-options="type for type in types.project">
-							</select>
-						</label>
-						<label>
-							Description
-							<textarea ng-model="getCurReq().project.description"></textarea>
-						</label>
-						<label>
-							Requested Amount
-							<input type="number" ng-model="getCurReq().project.amount" />
-						</label>
-					</fieldset>
+						<div class="columns medium-6">
+							<input placeholder="city" type="text" ng-model="getCurReq().location.city">
+						</div>
+					</div>
+					<div class="row">
+						<div class="columns medium-4">
+							<input placeholder="town" type="text" ng-model="getCurReq().location.town">
+						</div>
+						<div class="columns medium-4">
+							<input placeholder="barangay" type="text" ng-model="getCurReq().location.barangay">
+						</div>
+						<div class="columns medium-4">
+							<input placeholder="sitio" type="text" ng-model="getCurReq().location.sitio">
+						</div>
+					</div>
+				</div>
+				<div class="columns medium-3">
+					<p>
+						Now tell us where the request should be sent. We've filled these up for you if we have your address on file. Don't worry, you can change this if you're making this request for someone else.
+					</p>
+				</div>
+			</div>
+		</section>
+		<section class="pad">
+			<div class="row">
+				<div class="columns medium-2">
+					<i class="fa fa-briefcase fa-5x fa-fw"></i>
+				</div>
+				<div class="columns medium-7">
+					<h2>Project</h2>
+					<label>
+						Project Type
+						<select ng-model="getCurReq().project.type" ng-options="type for type in types.project">
+						</select>
+					</label>
+					<label>
+						Description
+						<textarea ng-model="getCurReq().project.description"></textarea>
+					</label>
+					<label>
+						Requested Amount
+						<input type="number" ng-model="getCurReq().project.amount" />
+					</label>
+				</div>
+				<div class="columns medium-3">
+					<p>
+						Now tell us about this project. Please be as brief as you can when describing your project. Making it simple and easy to understand will make your project more likely to be approved.
+					</p>
+				</div>
+			</div>
+		</section>
+		<section class="pad alt">
+			<div class="row">
+				<div class="columns medium-2">
+					<i class="fa fa-paperclip fa-5x fa-fw"></i>
+				</div>
+				<div class="columns medium-7">
+					<h2>Attachments</h2>
 					<button lass="button secondary">
-						Upload Attachments
+						Upload
 					</button>
-					<!-- <label>
-						Upload Attachments
-					</label> -->
+				</div>
+				<div class="columns medium-3">
+					<p>
+						We need your attachments to help your case. Certificates from engineers, endorsements from politicians, and photographs of the area are extremely helpful.
+					</p>
+				</div>
+			</div>
+		</section>
+		<section class="pad">
+			<div class="row">
+				<div class="columns medium-7 medium-offset-2">
 					<div class="actions">
 						<button class="button">
 							Submit
@@ -566,8 +606,8 @@
 					</div>
 				</div>
 			</div>
-		</form>
-	</section>
+		</section>
+	</form>
 </div>
 
 <!-- account -->
