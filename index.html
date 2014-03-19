@@ -56,7 +56,7 @@
 					</li>
 					<li ng-repeat="user in users.list">
 						<a ng-click="users.switchTo(user)">Switch to {{user.getName()}} 
-						<span>{{levels[user.level]}}</span></a>
+						<span class="label">{{levels[user.level]}}</span></a>
 					</li>
 					<li ng-if="users.isLoggedIn">
 						<a ng-click="users.logout()">
@@ -215,6 +215,9 @@
 						</td>
 						<td>
 							{{req.project.amount | number}}
+						</td>
+						<td>
+							{{levels[req.level]}}
 						</td>
 						<td>
 							<i 

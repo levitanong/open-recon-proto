@@ -244,10 +244,11 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
           if(discount){
             responses.current.revised = r.project.amount * discount;
           }
+
           // approve
           responses.approve(approver, r);
         }
-      })
+      });
     }
   }
 });
@@ -537,7 +538,6 @@ app.controller('Overview', function($scope, requests, levels, colors){
       })
       .pairs()
       .value();
-      console.log(base2);
 
       $scope.timeChartSeries[0].data = base2;
     }
@@ -582,6 +582,7 @@ app.controller('Overview', function($scope, requests, levels, colors){
 
 app.controller('List', function($scope, users, requests, levels, filters, types){
   $scope.users = users;
+  console.log(requests.list);
   $scope.requests = requests;
   $scope.levels = levels;
   $scope.filters = filters;
