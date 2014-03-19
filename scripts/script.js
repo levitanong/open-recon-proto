@@ -22,7 +22,7 @@ app.constant('types', {
     'Can I promise to do this if they vote for me?'
   ],
   'revision': [null, 0.85, 0.70, 0.65, 0.50, 0.35, 0.2],
-  'region': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 'ARMM', 'NCR', 'CAR']
+  'region': ["Region 1", "Region 2", "Region 3", "Region 4", "Region 5", "Region 6", "Region 7", "Region 8", "Region 9", "Region 10", "Region 11", "Region 12", "Region 13", 'ARMM', 'NCR', 'CAR']
 });
 
 app.constant('levels', [
