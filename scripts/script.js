@@ -437,20 +437,33 @@ app.controller('Overview', function($scope, requests, levels, colors){
     }
   ];
 
+  $scope.timeChartSeries = [
+    {
+      "name": "Requests Over Time",
+      "data": [],
+      style: {
+        fontFamily: "Roboto Condensed",
+        fontSize: 18
+      }
+    }
+  ]
+
   $scope.chartConfig = {
     options: {
       chart: {
         type: 'column',
         style: {
           fontFamily: "Roboto Condensed"
-        }
+        },
+        height: 300
       }
     },
     series: $scope.chartSeries,
     title: {
       text: 'Number of projects in each state of approval',
       style: {
-        fontFamily: "Roboto Condensed"
+        fontFamily: "Roboto Condensed",
+        color: "#000"
       }
     },
     xAxis: {
@@ -458,13 +471,32 @@ app.controller('Overview', function($scope, requests, levels, colors){
     },
     yAxis:{
       title: {
-        text: "Number of Projects"
+        text: "Number of Projects",
+        style:{
+          fontFamily: "Roboto Condensed",
+          color: "#000"
+        }
       }
     },
+    legend:{
+      enabled: false
+    },
     credits: {
-      enabled: true
+      enabled: false
     },
     loading: false
+  }
+
+  $scope.timeChartConfig = {
+    options: {
+      chart: {
+        type: 'line',
+        style: {
+          fontFamily: "Roboto Condensed"
+        },
+        height: 300
+      }
+    }
   }
 
   $scope.$watch('requests.list', function(requestList){
@@ -481,6 +513,10 @@ app.controller('Overview', function($scope, requests, levels, colors){
       
       $scope.chartSeries[0].data = values;
       $scope.chartConfig.xAxis.categories = keys;
+
+      // time chart series
+
+
     }
   });
 
