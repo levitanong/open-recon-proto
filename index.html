@@ -502,35 +502,34 @@
 						<legend>
 							Location
 						</legend>
-						<label>
-							region
-							<select ng-model="getCurReq().location.region" ng-options="type for type in types.region">
-							</select>
-						</label>
-						<label>
-							province
-							<input type="text" ng-model="getCurReq().location.province">
-						</label>
-						<label>
-							district
-							<input type="text" ng-model="getCurReq().location.district">
-						</label>
-						<label>
-							city
-							<input type="text" ng-model="getCurReq().location.city">
-						</label>
-						<label>
-							town
-							<input type="text" ng-model="getCurReq().location.town">
-						</label>
-						<label>
-							barangay
-							<input type="text" ng-model="getCurReq().location.barangay">
-						</label>
-						<label>
-							sitio
-							<input type="text" ng-model="getCurReq().location.sitio">
-						</label>
+						<div class="row">
+							<div class="columns medium-6">
+								<select ng-model="getCurReq().location.region" ng-options="type for type in types.region">
+								</select>
+							</div>
+							<div class="columns medium-6">
+								<input type="text" ng-model="getCurReq().location.province">
+							</div>
+						</div>
+						<div class="row">
+							<div class="columns medium-6">
+								<input placeholder="district" type="text" ng-model="getCurReq().location.district">
+							</div>
+							<div class="columns medium-6">
+								<input placeholder="city" type="text" ng-model="getCurReq().location.city">
+							</div>
+						</div>
+						<div class="row">
+							<div class="columns medium-4">
+								<input placeholder="town" type="text" ng-model="getCurReq().location.town">
+							</div>
+							<div class="columns medium-4">
+								<input placeholder="barangay" type="text" ng-model="getCurReq().location.barangay">
+							</div>
+							<div class="columns medium-4">
+								<input placeholder="sitio" type="text" ng-model="getCurReq().location.sitio">
+							</div>
+						</div>
 					</fieldset>
 
 					<fieldset>
