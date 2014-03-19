@@ -121,9 +121,11 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
       var index = Math.round(n);
       return arr[index];
     },
-    genDate: function(){
+    genDate: function(then){
+      if(typeof(then) == "undefined"){
+        var then = new Date('January 1, 2010');
+      }
       var now = new Date(Date.now());
-      var then = new Date('January 1, 2010');
       return new Date(now - Math.round((now - then) * Math.random()));
     },
     genAmount: function(){
@@ -416,46 +418,47 @@ app.controller('Overview', function($scope, requests, levels, colors){
   console.log(_.values(colors));
 
   $scope.chartSeries = [
-    {"name": "Number of projects", "data": [], "categories": [], dataLabels: {
+    {
+      "name": "Projects", 
+      "data": [],
+      dataLabels: {
         formatter: function() {
             return this.y > 5 ? this.point.name : null;
         },
-        style: {
-          fontFamily: "Roboto Condensed",
-          fontSize: 18
-        },
-        color: 'white',
-        distance: -40
-    }}
-  ];
+        color: "white"
+      },
+      style: {
+        fontFamily: "Roboto Condensed",
+        fontSize: 18
+      },
+      color: "#000",
+      distance: -40
 
-  $scope.$watch('requests.list', function(requestList){
-    if(requestList.length){
-      var countPairs = _.chain(requestList)
-      .countBy('level')
-      .pairs()
-      .map(function(r){return [levels[r[0]], r[1]];})
-      .value();
-
-      $scope.chartSeries[0].data = countPairs;
     }
-  });
+  ];
 
   $scope.chartConfig = {
     options: {
       chart: {
-        type: 'pie',
-        colors: _.values(colors),
+        type: 'column',
         style: {
           fontFamily: "Roboto Condensed"
         }
-      },
+      }
     },
     series: $scope.chartSeries,
     title: {
-      text: 'Approval State of Projects',
+      text: 'Number of projects in each state of approval',
       style: {
         fontFamily: "Roboto Condensed"
+      }
+    },
+    xAxis: {
+      categories: []
+    },
+    yAxis:{
+      title: {
+        text: "Number of Projects"
       }
     },
     credits: {
@@ -463,6 +466,59 @@ app.controller('Overview', function($scope, requests, levels, colors){
     },
     loading: false
   }
+
+  $scope.$watch('requests.list', function(requestList){
+    if(requestList.length){
+      var base = _.chain(requestList)
+      .countBy('level');
+
+      var keys = base.keys().map(function(r){return levels[r[0]];}).value();
+      var values = base.values().value();
+      // .pairs()
+      // .map(function(r){return [levels[r[0]], r[1]];})
+      // .value();
+      // console.log(countPairs);
+      
+      $scope.chartSeries[0].data = values;
+      $scope.chartConfig.xAxis.categories = keys;
+    }
+  });
+
+  // $scope.$watch('requests.list', function(requestList){
+  //   if(requestList.length){
+  //     var countPairs = _.chain(requestList)
+  //     .countBy('level')
+  //     .pairs()
+  //     .map(function(r){return [levels[r[0]], r[1]];})
+  //     .value();
+  //     // console.log(countPairs);
+
+  //     $scope.chartSeries[0].data = countPairs;
+  //   }
+  // });
+
+  // $scope.chartConfig = {
+  //   options: {
+  //     chart: {
+  //       type: 'pie',
+  //       colors: _.values(colors),
+  //       style: {
+  //         fontFamily: "Roboto Condensed"
+  //       }
+  //     },
+  //   },
+  //   series: $scope.chartSeries,
+  //   title: {
+  //     text: 'Approval State of Projects',
+  //     style: {
+  //       fontFamily: "Roboto Condensed"
+  //     }
+  //   },
+  //   credits: {
+  //     enabled: true
+  //   },
+  //   loading: false
+  // }
 });
 
 app.controller('List', function($scope, users, requests, levels, filters, types){
