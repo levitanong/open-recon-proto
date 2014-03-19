@@ -249,6 +249,23 @@ app.factory('requests', function(){
       return this.list.reduce(function(a, b){
         return a + b.project.amount;
       }, 0);
+    },
+    percentApproved: function(){
+      var numApproved = this.list.filter(function(l){
+        return l.level == 4;
+      }).length
+      return numApproved * 100 / this.list.length;
+    },
+    mostCommonProjectType: function(){
+      return _.chain(this.list)
+      .countBy(function(r){
+        return r.project.type;
+      })
+      .pairs()
+      .max(function(r){
+        return r[1];
+      })
+      .value();
     }
   }
   return reqs;

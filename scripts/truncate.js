@@ -1,9 +1,13 @@
 angular.module('truncate', []).
 	filter('largeCurrency', function(){
-		return function(input){
+		return function(input, place){
 			var out = "";
 			var buffer;
 			var suffix = "";
+
+			if(typeof(place) == "undefined"){
+				var place = 2;
+			}
 
 			var placeCheck = function(val, place){
 				if(typeof(place) == "undefined") place = 1;
@@ -40,7 +44,7 @@ angular.module('truncate', []).
 				var p = Math.pow(10, place);
 				return Math.round(num * p) / p;
 			}
-			out = roundTo(buffer[0], 2) + " " + suffix;
+			out = roundTo(buffer[0], place) + " " + suffix;
 			return out;
 		}
 	})

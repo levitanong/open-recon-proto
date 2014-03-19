@@ -90,16 +90,15 @@
 				Total cost of all projects
 			</div>
 			<div class="columns large-3">
-				<h1 class="number">{{requests.list.length}}</h1>
-				Number of blah
+				<h1 class="number">{{requests.percentApproved()}}%</h1>
+				Percent of all projects approved
 			</div>
 			<div class="columns large-3">
-				<h1 class="number">{{requests.list.length}}</h1>
-				Number of blah
+				<h1 class="number">{{requests.mostCommonProjectType()[0]}}</h1>
+				Most common project type
 			</div>
 		</div>
 		<div class="row">
-			insert data here
 			<highchart id="chart1" config="chartConfig"></highchart>
 		</div>
 	</section>
