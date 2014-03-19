@@ -1,3 +1,23 @@
+var colors = {
+  aqua: "#7FDBFF",
+  blue: "#0074D9",
+  lime: "#01FF70",
+  navy: "#001F3F",
+  teal: "#39CCCC",
+  olive: "#3D9970",
+  green: "#2ECC40",
+  red: "#FF4136",
+  maroon: "#85144B",
+  orange: "#FF851B",
+  purple: "#B10DC9",
+  yellow: "#FFDC00",
+  fuchsia: "#F012BE",
+  gray: "#aaa",
+  white: "#fff",
+  black: "#111",
+  silver: "#ddd"
+};
+
 var app = angular.module('recon', ['highcharts-ng', 'truncate']);
 
 // values and constants
@@ -187,7 +207,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
         users.current = users.list[0];
 
         // now that users exist, generate requests.
-        requests.list = self.genReqList(20);
+        requests.list = self.genReqList(self.genInt(50, 90));
         self.genResponses();
       }
       $http({method: 'GET', url: 'http://api.randomuser.me/?results=' + qty})
@@ -251,10 +271,11 @@ app.factory('requests', function(){
       }, 0);
     },
     percentApproved: function(){
-      var numApproved = this.list.filter(function(l){
-        return l.level == 4;
-      }).length
-      return numApproved * 100 / this.list.length;
+      var numApproved = this.list.filter(function(r){
+        return r.level == 4;
+      }).length * 100;
+
+      return Math.round(numApproved / this.list.length);
     },
     mostCommonProjectType: function(){
       return _.chain(this.list)
@@ -266,6 +287,11 @@ app.factory('requests', function(){
         return r[1];
       })
       .value();
+    },
+    totalPending: function(){
+      return this.list.filter(function(r){
+        return r.level < 4;
+      }).length;
     }
   }
   return reqs;
@@ -359,7 +385,7 @@ app.controller('Overview', function($scope, requests, levels){
   $scope.requests = requests;
 
   $scope.chartSeries = [
-    {"name": "Some data", "data": [], "categories": [], dataLabels: {
+    {"name": "Number of projects", "data": [], "categories": [], dataLabels: {
         formatter: function() {
             return this.y > 5 ? this.point.name : null;
         },
@@ -370,14 +396,13 @@ app.controller('Overview', function($scope, requests, levels){
 
   $scope.$watch('requests.list', function(requestList){
     if(requestList.length){
-      var derp = _.chain(requestList).groupBy('level');
-      var keys = derp.keys().map(function(a){return levels[a];}).value();
-      var values = derp.map(function(a){return a.length}).values().value();
+      var countPairs = _.chain(requestList)
+      .countBy('level')
+      .pairs()
+      .map(function(r){return [levels[r[0]], r[1]];})
+      .value();
 
-      console.log(keys, values);
-
-      $scope.chartSeries[0].categories = keys;
-      $scope.chartSeries[0].data = values;
+      $scope.chartSeries[0].data = countPairs;
     }
   });
 
@@ -386,15 +411,10 @@ app.controller('Overview', function($scope, requests, levels){
       chart: {
         type: 'pie'
       },
-      plotOptions: {
-        series: {
-          stacking: ''
-        }
-      },
     },
     series: $scope.chartSeries,
     title: {
-      text: 'Hello'
+      text: 'Approval State of Projects'
     },
     credits: {
       enabled: true
