@@ -55,7 +55,8 @@
 						<a ng-click="setView('Account')">Account Details</a>
 					</li>
 					<li ng-repeat="user in users.list">
-						<a ng-click="users.switchTo(user)">Switch to {{user.getName()}}</a>
+						<a ng-click="users.switchTo(user)">Switch to {{user.getName()}} 
+						<span>{{levels[user.level]}}</span></a>
 					</li>
 					<li ng-if="users.isLoggedIn">
 						<a ng-click="users.logout()">
@@ -197,26 +198,40 @@
 					</button></li>
 				</ul>
 
-				<h3 ng-if="filters.current.level">Showing requests pending at the {{levels[filters.current.level]}} level</h3>
-				<h3 ng-if="!filters.current.level">
+				<h3 class="filter-statement" ng-if="filters.current.level">Showing requests pending at the {{levels[filters.current.level]}} level</h3>
+				<h3 class="filter-statement" ng-if="!filters.current.level">
 				Showing all requests
 				</h3>
 
-				<ul>
-					<li class="request" ng-repeat="req in requests.list | filter:filters.current" ng-click="requests.current = req; setView('Detail')">
-						<!-- {{req.date | date:'MMM d'}} -->
-						<!-- {{req.code}} -->
-						{{req.date | date}}
-						<h5>
-							{{req.project.description}} 
-							<span class="right">{{req.project.amount | number}}</span>
-						</h5>
-						<span class="label radius alert">{{req.disaster.type}}</span>
-						<span class="label radius">{{req.project.type}}</span>
-						<span class="label radius">{{levels[req.level]}}</span>
-						
-					</li>
-				</ul>
+				<table>
+					<tr ng-repeat="req in requests.list | filter:filters.current">
+						<td>
+							{{req.date | date}}
+						</td>
+						<td>
+							<a ng-click="requests.current = req; setView('Detail')">
+								{{req.project.description}}
+							</a>
+						</td>
+						<td>
+							{{req.project.amount | number}}
+						</td>
+						<td>
+							<i 
+							class="fa" 
+							ng-class="{
+								'fa-building-o': req.project.type == 'Infrastructure',
+								'fa-leaf': req.project.type == 'Agriculture', 
+								'fa-pencil': req.project.type == 'School Building',
+								'fa-medkit': req.project.type == 'Health Facilities',
+								'fa-umbrella': req.project.type == 'Shelter Units',
+								'fa-heart': req.project.type == 'Environment',
+								'fa-ellipsis-h': req.project.type == 'Other'
+							}"
+							></i>
+						</td>
+					</tr>
+				</table>
 			</div>
 
 			<div class="filters columns medium-3">

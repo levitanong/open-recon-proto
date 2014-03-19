@@ -7132,3 +7132,9 @@ h1 {
 
 h1 small {
   color: #ff851b; }
+
+table {
+  border: 0; }
+
+.filter-statement {
+  font-weight: 300; }

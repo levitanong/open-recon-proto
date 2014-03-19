@@ -398,9 +398,10 @@ app.factory('filters', function(){
 
 // controllers
 
-app.controller('Main', function($scope, users, requests, sampleData){
+app.controller('Main', function($scope, users, requests, sampleData, levels){
   $scope.requests = requests;
   $scope.users = users;
+  $scope.levels = levels;
   $scope.curView = 'Overview';
   $scope.sampleData = sampleData;
 
