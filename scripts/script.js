@@ -1,4 +1,4 @@
-var app = angular.module('recon', ['highcharts-ng']);
+var app = angular.module('recon', ['highcharts-ng', 'truncate']);
 
 // values and constants
 
@@ -244,7 +244,12 @@ app.factory('requests', function(){
 
   var reqs = {
     list: [],
-    current: {}
+    current: {}, 
+    totalCost: function(){
+      return this.list.reduce(function(a, b){
+        return a + b.project.amount;
+      }, 0);
+    }
   }
   return reqs;
 });
@@ -333,18 +338,29 @@ app.controller('Main', function($scope, users, requests, sampleData){
   
 });
 
-app.controller('Overview', function($scope, requests){
+app.controller('Overview', function($scope, requests, levels){
   $scope.requests = requests;
+
   $scope.chartSeries = [
-    {"name": "Some data", "data": []}
+    {"name": "Some data", "data": [], "categories": [], dataLabels: {
+        formatter: function() {
+            return this.y > 5 ? this.point.name : null;
+        },
+        color: 'white',
+        distance: -30
+    }}
   ];
 
   $scope.$watch('requests.list', function(requestList){
     if(requestList.length){
-      var derp = requestList.map(function(r){
-        return r.level;
-      });
-      $scope.chartSeries[0].data = derp;
+      var derp = _.chain(requestList).groupBy('level');
+      var keys = derp.keys().map(function(a){return levels[a];}).value();
+      var values = derp.map(function(a){return a.length}).values().value();
+
+      console.log(keys, values);
+
+      $scope.chartSeries[0].categories = keys;
+      $scope.chartSeries[0].data = values;
     }
   });
 
@@ -357,7 +373,7 @@ app.controller('Overview', function($scope, requests){
         series: {
           stacking: ''
         }
-      }
+      },
     },
     series: $scope.chartSeries,
     title: {

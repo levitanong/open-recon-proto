@@ -5,12 +5,15 @@
 	<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="styles/css/style.css">
 
+	<script type="text/javascript" src="bower_components/underscore/underscore.js"></script>
+
 	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="bower_components/highcharts.com/js/highcharts.src.js"></script>
 	<script type="text/javascript" src="bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
 	
 	<script type="text/javascript" src="bower_components/foundation/js/foundation.min.js"></script>
+	<script type="text/javascript" src="scripts/truncate.js"></script>
 	<script type="text/javascript" src="scripts/script.js"></script>
 	
 </head>
@@ -77,6 +80,24 @@
 		</div>
 	</section>
 	<section>
+		<div class="row">
+			<div class="columns large-3">
+				<h1 class="number">{{requests.list.length}}</h1>
+				Number of projects in the pipeline
+			</div>
+			<div class="columns large-3">
+				<h1 class="number">{{requests.totalCost() | largeCurrency}}</h1>
+				Total cost of all projects
+			</div>
+			<div class="columns large-3">
+				<h1 class="number">{{requests.list.length}}</h1>
+				Number of blah
+			</div>
+			<div class="columns large-3">
+				<h1 class="number">{{requests.list.length}}</h1>
+				Number of blah
+			</div>
+		</div>
 		<div class="row">
 			insert data here
 			<highchart id="chart1" config="chartConfig"></highchart>
