@@ -320,10 +320,22 @@
 				<h1>
 					{{requests.current.project.description}}
 				</h1>
-				<h4>Type</h4>
-				<p>{{requests.current.project.type}}</p>
-				<h4>Amount</h4>
-				<p>{{requests.current.project.amount | number}}</p>
+				<div class="row">
+					<div class="columns medium-4">
+						<h4>Author</h4>
+						<p>{{requests.current.author.getName()}}</p>
+					</div>
+					<div class="columns medium-4">
+						<h4>Type</h4>
+						<p>{{requests.current.project.type}}</p>
+					</div>
+					<div class="columns medium-4">
+						<h4>Amount</h4>
+						<p>{{requests.current.project.amount | number}}</p>
+					</div>
+				</div>
+				
+				
 				<!-- attachments -->
 				<h4>Attachments</h4>
 				<ul class="attachments small-block-grid-3">
