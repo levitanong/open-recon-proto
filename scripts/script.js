@@ -1,22 +1,4 @@
-var colors = {
-  aqua: "#7FDBFF",
-  blue: "#0074D9",
-  lime: "#01FF70",
-  navy: "#001F3F",
-  teal: "#39CCCC",
-  olive: "#3D9970",
-  green: "#2ECC40",
-  red: "#FF4136",
-  maroon: "#85144B",
-  orange: "#FF851B",
-  purple: "#B10DC9",
-  yellow: "#FFDC00",
-  fuchsia: "#F012BE",
-  gray: "#aaa",
-  white: "#fff",
-  black: "#111",
-  silver: "#ddd"
-};
+
 
 var app = angular.module('recon', ['highcharts-ng', 'truncate']);
 
@@ -50,6 +32,26 @@ app.constant('levels', [
   'OP',
   'DBM'
 ]);
+
+app.constant('colors', {
+  aqua: "#7FDBFF",
+  blue: "#0074D9",
+  lime: "#01FF70",
+  navy: "#001F3F",
+  teal: "#39CCCC",
+  olive: "#3D9970",
+  green: "#2ECC40",
+  red: "#FF4136",
+  maroon: "#85144B",
+  orange: "#FF851B",
+  purple: "#B10DC9",
+  yellow: "#FFDC00",
+  fuchsia: "#F012BE",
+  gray: "#aaa",
+  white: "#fff",
+  black: "#111",
+  silver: "#ddd"
+});
 
 // filters
 
@@ -119,6 +121,11 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
       var index = Math.round(n);
       return arr[index];
     },
+    genDate: function(){
+      var now = new Date(Date.now());
+      var then = new Date('January 1, 2010');
+      return new Date(now - Math.round((now - then) * Math.random()));
+    },
     genAmount: function(){
       return Math.round(Math.random() * 100) * 100000;
     },
@@ -141,7 +148,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
         return arr;
       }
       return {
-        date: new Date(Date.now()),
+        date: self.genDate(),
         code: '123-456',
         level: 1,
         isRejected: false,
@@ -265,18 +272,6 @@ app.factory('requests', function(){
   var reqs = {
     list: [],
     current: {}, 
-    totalCost: function(){
-      return this.list.reduce(function(a, b){
-        return a + b.project.amount;
-      }, 0);
-    },
-    percentApproved: function(){
-      var numApproved = this.list.filter(function(r){
-        return r.level == 4;
-      }).length * 100;
-
-      return Math.round(numApproved / this.list.length);
-    },
     mostCommonProjectType: function(){
       return _.chain(this.list)
       .countBy(function(r){
@@ -288,10 +283,45 @@ app.factory('requests', function(){
       })
       .value();
     },
+    mostCommonDisasterType: function(){
+      return _.chain(this.list)
+      .countBy(function(r){
+        return r.disaster.type;
+      })
+      .pairs()
+      .max(function(r){
+        return r[1];
+      })
+      .value();
+    },
     totalPending: function(){
       return this.list.filter(function(r){
         return r.level < 4;
-      }).length;
+      });
+    },
+    totalApproved: function(){
+      return this.list.filter(function(r){
+        return r.level >= 4;
+      });
+    },
+    totalCost: function(){
+      return this.list.reduce(function(a, b){
+        return a + b.project.amount;
+      }, 0);
+    },
+    pendingCost: function(){
+      return this.totalPending().reduce(function(a, b){
+        return a + b.project.amount;
+      }, 0);
+    },
+    approvedCost: function(){
+      return this.totalApproved().reduce(function(a, b){
+        return a + b.project.amount;
+      }, 0);
+    },
+    percentApproved: function(){
+      var numApproved = this.totalApproved().length;
+      return Math.round(numApproved * 100 / this.list.length);
     }
   }
   return reqs;
@@ -381,16 +411,21 @@ app.controller('Main', function($scope, users, requests, sampleData){
   
 });
 
-app.controller('Overview', function($scope, requests, levels){
+app.controller('Overview', function($scope, requests, levels, colors){
   $scope.requests = requests;
+  console.log(_.values(colors));
 
   $scope.chartSeries = [
     {"name": "Number of projects", "data": [], "categories": [], dataLabels: {
         formatter: function() {
             return this.y > 5 ? this.point.name : null;
         },
+        style: {
+          fontFamily: "Roboto Condensed",
+          fontSize: 18
+        },
         color: 'white',
-        distance: -30
+        distance: -40
     }}
   ];
 
@@ -409,12 +444,19 @@ app.controller('Overview', function($scope, requests, levels){
   $scope.chartConfig = {
     options: {
       chart: {
-        type: 'pie'
+        type: 'pie',
+        colors: _.values(colors),
+        style: {
+          fontFamily: "Roboto Condensed"
+        }
       },
     },
     series: $scope.chartSeries,
     title: {
-      text: 'Approval State of Projects'
+      text: 'Approval State of Projects',
+      style: {
+        fontFamily: "Roboto Condensed"
+      }
     },
     credits: {
       enabled: true

@@ -7129,3 +7129,6 @@ h1 {
   text-align: center; }
   .placeholder h3 {
     color: #aaaaaa; }
+
+h1 small {
+  color: #ff851b; }
