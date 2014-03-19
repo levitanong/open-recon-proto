@@ -5,21 +5,21 @@ var app = angular.module('recon', ['highcharts-ng', 'truncate']);
 // values and constants
 
 app.constant('types', {
-  'disaster names': ['papang', 'pepeng', 'piping', 'popong', 'pupung'],
+  'disaster names': ['Brunhilda', 'Bantay', 'Muning', 'Dodong', 'Puring'],
   'disaster': ['Earthquake', 'Flood', 'Typhoon', 'Landslide', 'Anthropogenic'],
   'project': ['Infrastructure', 'Agriculture', 'School Building', 'Health Facilities', 'Shelter Units', 'Environment', 'Other'],
   'description': [
-    'Boats and shit',
+    'Adamantium reinforcement for nipa huts.',
     'These equipments, you know. I need them.',
-    'omg, have you seen these trees? we gotta plant more!',
-    'the whole town kinda burned down and we pretty much need to build the whole thing again. Seriously guys. This is the tenth time.',
-    'EVERYONE IS DEAD. WE NEED TO REPOPULATE',
-    'Rubber boat plzkthnx'
+    'Very very urgent, we ran out of soft drinks! Help!',
+    'We want to hire Michael Jackson to dance for residents of disaster-afflicted areas',
+    'Request for funding to dispatch search and rescue team for missing local domesticated feline',
+    'Our bridge is missing, can you help us buy another one?'
   ],
   'comment': [
-    'What is this madness?',
-    'I think this is awesome because reasons, and I think we should do it.',
-    'THIS SHALL NOT PASS'
+    'Please attach two photocopies of Form R311-78a.9v8 (1983)',
+    'This is a wonderful idea, we should double their budget and give them cake.',
+    'Can I promise to do this if they vote for me?'
   ],
   'revision': [null, 0.85, 0.70, 0.65, 0.50, 0.35, 0.2],
   'region': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 'ARMM', 'NCR', 'CAR']
