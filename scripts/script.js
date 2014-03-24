@@ -173,28 +173,6 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
         attachments: genArray(self.genInt(1, 6))
       }
     },
-    genUser: function(level){
-      var self = this;
-      return {
-        level: level,
-        name: {},
-        picture: null,
-        income: null,
-        address: {
-          district: null,
-          department: null,
-          region: 8,
-          province: 'Western Samar',
-          city: null,
-          town: 'Daram',
-          barangay: null,
-          sitio: null
-        },
-        getName: function(){
-          return this.name.first + ' ' + this.name.last;
-        }
-      }
-    },
     genReqList: function(qty){
       var list = [];
       for(var i = 0; i < qty; i++){
@@ -211,7 +189,6 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
           var u = new users.User(results[i].user, i);
           users.list.push(u);
         }
-        // users.current = users.list[0];
 
         // now that users exist, generate requests.
         requests.list = self.genReqList(self.genInt(50, 90));
