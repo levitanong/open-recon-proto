@@ -176,7 +176,7 @@ app.factory('sampleData', function(types, users, projects, responses, $http){
     genReqList: function(qty){
       var list = [];
       for(var i = 0; i < qty; i++){
-        list.push(this.genRequest());
+        list.push(new projects.Project(this.genRequest()));
       }
       return list;
     },
@@ -270,7 +270,12 @@ app.factory('users', function(){
 
 app.factory('projects', function(){
 
-  var reqs = {
+  var projects = {
+    Project: function(data){
+      for(prop in data){
+        this[prop] = data[prop];
+      }
+    },
     list: [],
     current: {}, 
     mostCommonProjectType: function(){
@@ -325,7 +330,7 @@ app.factory('projects', function(){
       return Math.round(numApproved * 100 / this.list.length);
     }
   }
-  return reqs;
+  return projects;
 });
 
 app.factory('responses', function(){
