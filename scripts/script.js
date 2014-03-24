@@ -14,7 +14,8 @@ app.constant('types', {
     'Very very urgent, we ran out of soft drinks! Help!',
     'We want to hire Michael Jackson to dance for residents of disaster-afflicted areas',
     'Request for funding to dispatch search and rescue team for missing local domesticated feline',
-    'Our bridge is missing, can you help us buy another one?'
+    'Our bridge is missing, can you help us buy another one?',
+    'We must construct additional pylons.'
   ],
   'comment': [
     'Please attach two photocopies of Form R311-78a.9v8 (1983)',
@@ -183,7 +184,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
         address: {
           district: null,
           department: null,
-          region: 8,
+          region: 'Region 8',
           province: 'Western Samar',
           city: null,
           town: 'Daram',
