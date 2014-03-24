@@ -191,10 +191,10 @@ app.factory('sampleData', function(types, users, projects, responses, $http){
         }
 
         // now that users exist, generate requests.
-        projects.list = self.genReqList(self.genInt(50, 90));
-        self.genResponses();
+        // projects.list = self.genReqList(self.genInt(50, 90));
+        // self.genResponses();
       }
-      $http({method: 'GET', url: 'http://api.randomuser.me/?results=' + qty})
+      return $http({method: 'GET', url: 'http://api.randomuser.me/?results=' + qty})
         .success(function(data){
           populate(data.results, qty);
         })
@@ -402,15 +402,31 @@ app.factory('filters', function(){
 
 // controllers
 
-app.controller('Main', function($scope, users, projects, sampleData, levels){
+app.controller('Main', function($scope, users, projects, sampleData, levels, $http){
+
   $scope.projects = projects;
   $scope.users = users;
   $scope.levels = levels;
   $scope.curView = 'Overview';
   $scope.sampleData = sampleData;
 
-  sampleData.genUsers(5);
-  // console.log(p);
+  var d = sampleData.genUsers(5).then(function(data){
+    $scope.projects.list = sampleData.genReqList(sampleData.genInt(50, 90));
+    sampleData.genResponses();
+  });
+
+  $http({method: 'GET', url: 'data/CF14-RQST-Sanitized.csv'})
+    .success(function(data){
+      var d = csv2json.csv
+        .parse(data)
+        .map(function(p){
+          return new projects.Project(p);
+        });
+      console.log(d);
+    })
+    .error(function(){
+      console.log(error);
+    });
 
   $scope.setView = function(str){
     $scope.curView = str;
