@@ -254,7 +254,6 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
 app.factory('users', function(){
   var u = {
     User: function(data, level){
-      var self = this;
       for(prop in data){
         this[prop] = data[prop];
       }
