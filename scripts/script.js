@@ -114,7 +114,7 @@ app.filter("timeago", function () {
 
 // Factories
 
-app.factory('sampleData', function(types, users, requests, responses, $http){
+app.factory('sampleData', function(types, users, projects, responses, $http){
   return {
     genFromArray: function(arr){
       var n = Math.random() * (arr.length - 1);
@@ -191,7 +191,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
         }
 
         // now that users exist, generate requests.
-        requests.list = self.genReqList(self.genInt(50, 90));
+        projects.list = self.genReqList(self.genInt(50, 90));
         self.genResponses();
       }
       $http({method: 'GET', url: 'http://api.randomuser.me/?results=' + qty})
@@ -205,7 +205,7 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
     genResponses: function(){
       var self = this;
       // for each request, generate a random target level.
-      requests.list.map(function(r){
+      projects.list.map(function(r){
         var target = self.genInt(4);
 
         // create an approval by authorized user for each step up to target
@@ -268,7 +268,7 @@ app.factory('users', function(){
   return u;
 });
 
-app.factory('requests', function(){
+app.factory('projects', function(){
 
   var reqs = {
     list: [],
@@ -397,8 +397,8 @@ app.factory('filters', function(){
 
 // controllers
 
-app.controller('Main', function($scope, users, requests, sampleData, levels){
-  $scope.requests = requests;
+app.controller('Main', function($scope, users, projects, sampleData, levels){
+  $scope.projects = projects;
   $scope.users = users;
   $scope.levels = levels;
   $scope.curView = 'Overview';
@@ -413,8 +413,8 @@ app.controller('Main', function($scope, users, requests, sampleData, levels){
   
 });
 
-app.controller('Overview', function($scope, requests, levels, colors){
-  $scope.requests = requests;
+app.controller('Overview', function($scope, projects, levels, colors){
+  $scope.projects = projects;
   console.log(_.values(colors));
 
   $scope.chartSeries = [
@@ -517,7 +517,7 @@ app.controller('Overview', function($scope, requests, levels, colors){
     }
   }
 
-  $scope.$watch('requests.list', function(requestList){
+  $scope.$watch('projects.list', function(requestList){
     if(requestList.length){
       var base = _.chain(requestList)
       .countBy('level');
@@ -578,10 +578,10 @@ app.controller('Overview', function($scope, requests, levels, colors){
   // }
 });
 
-app.controller('List', function($scope, users, requests, levels, filters, types){
+app.controller('List', function($scope, users, projects, levels, filters, types){
   $scope.users = users;
-  console.log(requests.list);
-  $scope.requests = requests;
+  console.log(projects.list);
+  $scope.projects = projects;
   $scope.levels = levels;
   $scope.filters = filters;
   $scope.types = types;
@@ -593,27 +593,27 @@ app.controller('List', function($scope, users, requests, levels, filters, types)
   }
 });
 
-app.controller('Detail', function($scope, users, requests, levels, responses){
+app.controller('Detail', function($scope, users, projects, levels, responses){
   $scope.users = users;
-  $scope.requests = requests;
+  $scope.projects = projects;
   $scope.responses = responses;
   $scope.levels = levels;
   $scope.submit = function(){
     switch($scope.responses.current.type){
       case 'approval':
-        responses.approve(users.current, requests.current);
+        responses.approve(users.current, projects.current);
         break;
       case 'rejection':
-        responses.reject(users.current, requests.current);
+        responses.reject(users.current, projects.current);
         break;
       case 'comment': default:
-        responses.comment(users.current, requests.current);
+        responses.comment(users.current, projects.current);
     }
     $scope.responses.reset();
   }
 });
 
-app.controller('New', function($scope, users, types, requests){
+app.controller('New', function($scope, users, types, projects){
   var reqProto = {
     date: null, // auto
     code: null, // auto
@@ -655,7 +655,7 @@ app.controller('New', function($scope, users, types, requests){
     $scope.curReq.code = $scope.generateCode($scope.curReq);
 
     // push to array
-    requests.list.push($scope.curReq);
+    projects.list.push($scope.curReq);
     $scope.curReq = {};
     curReq = {};
 

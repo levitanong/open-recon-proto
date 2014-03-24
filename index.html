@@ -46,7 +46,7 @@
 		</ul>
 		<ul class="right">
 			<li>
-				<a ng-click="requests.addSampleData(10)">Generate Sample Data</a>
+				<a ng-click="projects.addSampleData(10)">Generate Sample Data</a>
 			</li>
 			<li class="has-dropdown not-click">
 				<a href="#">
@@ -93,21 +93,21 @@
 			<div class="columns medium-6">
 				<div class="row">
 					<div class="columns medium-6">
-						<h1 class="number">{{requests.list.length}}</h1>
+						<h1 class="number">{{projects.list.length}}</h1>
 						<p>Total number of projects</p>
 					</div>
 					<div class="columns medium-6">
-						<h1 class="number">{{requests.totalPending().length}}</h1>
+						<h1 class="number">{{projects.totalPending().length}}</h1>
 						<p>Pending projects</p>
 					</div>
 				</div>
 				<div class="row">
 					<div class="columns medium-6">
-						<h1 class="number">{{requests.totalApproved().length}}</h1>
+						<h1 class="number">{{projects.totalApproved().length}}</h1>
 						<p>Approved projects</p>
 					</div>
 					<div class="columns medium-6">
-						<h1 class="number">{{requests.percentApproved()}}%</h1>
+						<h1 class="number">{{projects.percentApproved()}}%</h1>
 						<p>Percent of all projects approved</p>
 					</div>
 				</div>
@@ -126,15 +126,15 @@
 		</div>
 		<div class="row">
 			<div class="columns medium-3">
-				<h1 class="number">{{requests.totalCost() | largeCurrency}}</h1>
+				<h1 class="number">{{projects.totalCost() | largeCurrency}}</h1>
 				<p>Total cost of all projects</p>
 			</div>
 			<div class="columns medium-3 end">
-				<h1 class="number">{{requests.pendingCost() | largeCurrency}}</h1>
+				<h1 class="number">{{projects.pendingCost() | largeCurrency}}</h1>
 				<p>Cost of pending projects</p>
 			</div>
 			<div class="columns medium-3 end">
-				<h1 class="number">{{requests.approvedCost() | largeCurrency}}</h1>
+				<h1 class="number">{{projects.approvedCost() | largeCurrency}}</h1>
 				<p>Amount approved</p>
 			</div>
 		</div>
@@ -146,11 +146,11 @@
 		</div>
 		<div class="row">
 			<div class="columns medium-3">
-				<h1 class="number">{{requests.mostCommonProjectType()[0]}}</h1>
+				<h1 class="number">{{projects.mostCommonProjectType()[0]}}</h1>
 				<p>Most common project type</p>
 			</div>
 			<div class="columns medium-3 end">
-				<h1 class="number">{{requests.mostCommonDisasterType()[0]}}</h1>
+				<h1 class="number">{{projects.mostCommonDisasterType()[0]}}</h1>
 				<p>Most common disaster type</p>
 			</div>
 			<div class="columns medium-3 end">
@@ -201,18 +201,18 @@
 					</button></li>
 				</ul>
 
-				<h3 class="filter-statement" ng-if="filters.current.level">Showing requests pending at the {{levels[filters.current.level]}} level</h3>
+				<h3 class="filter-statement" ng-if="filters.current.level">Showing projects pending at the {{levels[filters.current.level]}} level</h3>
 				<h3 class="filter-statement" ng-if="!filters.current.level">
-				Showing all requests
+				Showing all projects
 				</h3>
 
 				<table>
-					<tr ng-repeat="req in requests.list | filter:filters.current">
+					<tr ng-repeat="req in projects.list | filter:filters.current">
 						<td class="text-center">
 							{{req.date | date: 'MMM d'}}
 						</td>
 						<td>
-							<a ng-click="requests.current = req; setView('Detail')">
+							<a ng-click="projects.current = req; setView('Detail')">
 								{{req.project.description}}
 							</a>
 						</td>
@@ -246,13 +246,13 @@
 					class="button small right" 
 					ng-click="filters.reset(); filters.current.author = users.current"
 					ng-if="users.current.level == 0">
-						Show my requests
+						Show my projects
 					</button>
 					<button
 					class="button small right" 
 					ng-click="filters.reset(); filters.current.level = users.current.level"
 					ng-if="users.current.level > 0">
-						Show requests assigned to me
+						Show projects assigned to me
 					</button>
 				</div>
 				<h5>
@@ -303,13 +303,13 @@
 	<section>
 		<div class="row">
 			<div class="prog">
-				<div class="step" ng-repeat="level in levels" ng-if="!$first" ng-class="{approved: $index < requests.current.level, pending: $index == requests.current.level}">
+				<div class="step" ng-repeat="level in levels" ng-if="!$first" ng-class="{approved: $index < projects.current.level, pending: $index == projects.current.level}">
 					<span class="number">{{$index}}</span>
 					{{level}}
-					<span class="label" ng-if="$index < requests.current.level">
+					<span class="label" ng-if="$index < projects.current.level">
 						<i class="fa fa-check"></i>
 					</span>
-					<span class="label" ng-if="$index == requests.current.level">
+					<span class="label" ng-if="$index == projects.current.level">
 						Pending
 					</span>
 				</div>
@@ -318,23 +318,23 @@
 		<div class="row">
 			<div class="columns medium-9">
 				<h3>
-					Filed {{requests.current.date | date: 'MMM d, yyyy'}}
+					Filed {{projects.current.date | date: 'MMM d, yyyy'}}
 				</h3>
 				<h1>
-					{{requests.current.project.description}}
+					{{projects.current.project.description}}
 				</h1>
 				<div class="row">
 					<div class="columns medium-4">
 						<h4>Author</h4>
-						<p>{{requests.current.author.getName()}}</p>
+						<p>{{projects.current.author.getName()}}</p>
 					</div>
 					<div class="columns medium-4">
 						<h4>Type</h4>
-						<p>{{requests.current.project.type}}</p>
+						<p>{{projects.current.project.type}}</p>
 					</div>
 					<div class="columns medium-4">
 						<h4>Amount</h4>
-						<p>{{requests.current.project.amount | number}}</p>
+						<p>{{projects.current.project.amount | number}}</p>
 					</div>
 				</div>
 
@@ -344,7 +344,7 @@
 				<!-- attachments -->
 				<h4>Attachments</h4>
 				<ul class="attachments small-block-grid-3">
-					<li ng-repeat="a in requests.current.attachments">
+					<li ng-repeat="a in projects.current.attachments">
 						<div class="placeholder">
 							<h3>Document {{a.number + 1}}</h3>
 						</div>
@@ -352,7 +352,7 @@
 				</ul>
 				<hr />
 				<!-- responses -->
-				<div class="response" ng-repeat="response in requests.current.history">
+				<div class="response" ng-repeat="response in projects.current.history">
 					<div class="comment" ng-if="response.type == 'comment'">
 						<img class="portrait med" ng-src="{{response.author.picture}}" />
 						<div class="bubble">
@@ -388,7 +388,7 @@
 				</div>
 				<div class="actions row">
 					<form ng-submit="submit()">
-						<label ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
+						<label ng-if="users.current.level == projects.current.level && !projects.current.isRejected">
 							Revised Amount (optional)
 							<input ng-model="responses.current.revised" type="number">
 						</label>
@@ -405,7 +405,7 @@
 									Comment
 								</button>
 							</li>
-							<li ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
+							<li ng-if="users.current.level == projects.current.level && !projects.current.isRejected">
 								<button 
 								class="button small"
 								ng-click="responses.current.type = 'approval'">
@@ -418,17 +418,17 @@
 									</span>
 								</button>
 							</li>
-							<li ng-if="users.current.level == requests.current.level && !requests.current.isRejected">
+							<li ng-if="users.current.level == projects.current.level && !projects.current.isRejected">
 								<button class="button small alert" ng-click="responses.current.type = 'rejection'" ng-disabled="responses.current.revised">
 								<span ng-if="responses.current.comment && users.current.level == request.current.level">Comment and</span> Reject
 								</button>
 							</li>
-							<li ng-if="users.current.level < requests.current.level && users.current.level > 0">
+							<li ng-if="users.current.level < projects.current.level && users.current.level > 0">
 								<div class="thing">
 									This has already been approved at your level
 								</div>
 							</li>
-							<li ng-if="requests.current.isRejected">
+							<li ng-if="projects.current.isRejected">
 								<div class="thing">
 									This has been rejected at your level
 								</div>
@@ -444,19 +444,19 @@
 						Disaster
 					</h2>
 					<h4>Name</h4>
-					<p>{{requests.current.disaster.name}}</p>
+					<p>{{projects.current.disaster.name}}</p>
 					<h4>Type</h4>
-					<p>{{requests.current.disaster.type}}</p>
+					<p>{{projects.current.disaster.type}}</p>
 					<h4>Date</h4>
-					<p>{{requests.current.disaster.date | date: 'MMM d, yyyy'}}</p>
-					<h4 ng-if="requests.current.disaster.cause">Cause</h4>
-					<p>{{requests.current.disaster.cause}}</p>
+					<p>{{projects.current.disaster.date | date: 'MMM d, yyyy'}}</p>
+					<h4 ng-if="projects.current.disaster.cause">Cause</h4>
+					<p>{{projects.current.disaster.cause}}</p>
 				</div>
 				<div class="location">
 					<h2>
 						Location
 					</h2>
-					<div ng-repeat="(key, value) in requests.current.author.address" ng-show="value">
+					<div ng-repeat="(key, value) in projects.current.author.address" ng-show="value">
 						<h4>{{key}}</h4>
 						<p>{{value}}</p>
 					</div>
