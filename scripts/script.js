@@ -208,15 +208,10 @@ app.factory('sampleData', function(types, users, requests, responses, $http){
       var populate = function(results, qty){
         if(!qty) qty = 1;
         for(var i = 0; i < qty; i++){
-          // var u = self.genUser(i);
-
           var u = new users.User(results[i].user, i);
-
-          // u.picture = results[i].user.picture;
-          // u.name = results[i].user.name;
           users.list.push(u);
         }
-        users.current = users.list[0];
+        // users.current = users.list[0];
 
         // now that users exist, generate requests.
         requests.list = self.genReqList(self.genInt(50, 90));
@@ -276,13 +271,13 @@ app.factory('users', function(){
       };
       this.getName = function(){
         if(typeof(this.name) == "undefined"){
-          return "Guest";
+          return "";
         } else {
           return this.name.first + " " + this.name.last;
         }
       };
     },
-    isLoggedIn: true,
+    isLoggedIn: false,
     switchTo: function(u){
       this.current = u;
       this.isLoggedIn = true;
