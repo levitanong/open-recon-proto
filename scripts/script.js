@@ -411,18 +411,45 @@ app.controller('Main', function($scope, users, projects, sampleData, levels, $ht
   $scope.sampleData = sampleData;
 
   var d = sampleData.genUsers(5).then(function(data){
-    $scope.projects.list = sampleData.genReqList(sampleData.genInt(50, 90));
-    sampleData.genResponses();
+    // $scope.projects.list = sampleData.genReqList(sampleData.genInt(50, 90));
+    // sampleData.genResponses();
   });
 
   $http({method: 'GET', url: 'data/CF14-RQST-Sanitized.csv'})
     .success(function(data){
-      var d = csv2json.csv
-        .parse(data)
-        .map(function(p){
-          return new projects.Project(p);
+      var data = csv2json.csv
+        .parse(data, function(d, i){
+          var d = {
+            date: new Date(d.DATE_REQD),
+            code: i+1,
+            level: 1,
+            isRejected: false,
+            disaster: {
+              name: d["TYPE OF DISASTER"],
+              type: "",
+              date: "",
+              cause: null
+            },
+            author: d["REQUESTING PARTY"],
+            implementingAgency: d["RECEIPIENT"],
+            project: {
+              type: d["PURPOSE1"],
+              description: d["PURPOSE"],
+              amount: parseInt(d["AMT_REQD"]),
+            },
+            location: {},
+            remarks: d["REMARKS"],
+            history: [],
+            attacments: []
+          }
+          return new projects.Project(d);
         });
-      console.log(d);
+      // console.log($scope.projects);
+      // $scope.projects.list = data;
+      // console.log($scope.projects);
+      console.log(data);
+      $scope.projects.list = data
+      return data;
     })
     .error(function(){
       console.log(error);
